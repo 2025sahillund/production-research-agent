@@ -8,6 +8,7 @@ from src.tools.search import WebSearchTool
 from src.tools.scraper import ContentFetcherTool
 from src.tools.tech_kb import TechKBTool
 from src.tools.fact_checker import FactCheckerTool
+from src.tools.baseline import BaselineComparisonTool
 
 
 def get_default_tools() -> Dict[str, BaseTool]:
@@ -16,7 +17,8 @@ def get_default_tools() -> Dict[str, BaseTool]:
         WebSearchTool(),
         ContentFetcherTool(),
         TechKBTool(),
-        FactCheckerTool()
+        FactCheckerTool(),
+        BaselineComparisonTool()
     ]
     return {tool.name: tool for tool in tools}
 
@@ -27,6 +29,7 @@ __all__ = [
     "ContentFetcherTool",
     "TechKBTool",
     "FactCheckerTool",
+    "BaselineComparisonTool",
     "get_default_tools"
 ]
 
