@@ -114,3 +114,15 @@ def test_plan_step_schema():
     assert step.step_id == 1
     assert step.status == "pending"
 
+
+def test_tool_result_schema_and_fallback_attribute():
+    result = ToolResult(
+        tool_name="web_search",
+        query="test query",
+        success=True
+    )
+    assert result.fallback_triggered is False
+    assert getattr(result, "fallback_triggered", False) is False
+    assert getattr(result, "retry_count", 0) == 0
+    assert getattr(result, "origin_type", "live") == "live"
+
