@@ -1,5 +1,6 @@
 """
 AI Research Agent - Professional Research Workspace
+Theme: Warm Cream & Gold
 Evidence-grounded technical research with transparent tool execution,
 deterministic schema validation, and independent safety audits.
 """
@@ -15,7 +16,7 @@ from src.llm.provider import OpenAIProvider, GeminiProvider, GroqProvider, MockR
 from src.config import settings
 
 # -----------------------------------------------------------------------------
-# Page Configuration & Clean Aesthetic Theme
+# Page Configuration
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="AI Research Agent | Predixion AI",
@@ -24,26 +25,38 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom Scoped CSS: Restrained Professional Palette & Typography
+# -----------------------------------------------------------------------------
+# Warm Cream & Gold Theme CSS (High Contrast, No Dark-Mode Mismatches)
+# -----------------------------------------------------------------------------
 st.markdown("""
 <style>
-    /* Global Typography & Font Weights */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     
-    html, body, [class*="css"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        color: #1e293b;
-    }
-    
-    code, pre {
-        font-family: 'JetBrains Mono', monospace !important;
+    /* Global Base */
+    html, body, [class*="css"], [data-testid="stAppViewContainer"] {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #fcfbf7 !important;
+        color: #1c1917 !important;
     }
 
-    /* Container Spacing */
+    [data-testid="stHeader"] {
+        background-color: #fcfbf7 !important;
+    }
+
+    /* Container Constraints */
     .block-container {
         padding-top: 1.8rem;
         padding-bottom: 3rem;
         max-width: 1200px;
+    }
+
+    /* Typography & Code */
+    code, pre {
+        font-family: 'JetBrains Mono', monospace !important;
+        background-color: #f5efe6 !important;
+        color: #78350f !important;
+        border: 1px solid #e7dfd5 !important;
     }
 
     /* Header Container */
@@ -52,15 +65,15 @@ st.markdown("""
         justify-content: space-between;
         align-items: flex-start;
         padding-bottom: 1.25rem;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e7dfd5;
         margin-bottom: 1.5rem;
     }
 
     .brand-title {
-        font-size: 1.65rem;
+        font-size: 1.7rem;
         font-weight: 700;
         letter-spacing: -0.025em;
-        color: #0f172a;
+        color: #1c1917 !important;
         margin: 0;
         display: flex;
         align-items: center;
@@ -69,7 +82,7 @@ st.markdown("""
 
     .brand-subtitle {
         font-size: 0.925rem;
-        color: #64748b;
+        color: #78716c !important;
         margin-top: 0.25rem;
         margin-bottom: 0;
     }
@@ -79,127 +92,185 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
-        padding: 0.25rem 0.65rem;
+        padding: 0.25rem 0.75rem;
         border-radius: 9999px;
         font-size: 0.775rem;
-        font-weight: 500;
-        border: 1px solid #cbd5e1;
-        background-color: #f8fafc;
-        color: #334155;
+        font-weight: 600;
+        border: 1px solid #ebdcc5;
+        background-color: #faf6ee;
+        color: #92400e;
     }
 
     .mode-dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: #10b981;
+        background-color: #d97706;
     }
 
-    .mode-dot-amber {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #f59e0b;
-    }
-
-    /* Stepper Cards */
+    /* Stepper Lifecycle Cards */
     .stepper-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 0.75rem;
+        gap: 0.85rem;
         margin-bottom: 1.5rem;
     }
 
     .step-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
+        background: #ffffff !important;
+        border: 1px solid #e8dfd2 !important;
         border-radius: 8px;
-        padding: 0.75rem 1rem;
+        padding: 0.85rem 1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.2rem;
-    }
-
-    .step-card.active {
-        border-color: #2563eb;
-        background-color: #eff6ff;
+        gap: 0.25rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
     }
 
     .step-card.completed {
-        border-color: #cbd5e1;
-        background-color: #f8fafc;
+        border-color: #d6cbba !important;
+        background-color: #ffffff !important;
     }
 
     .step-num {
         font-size: 0.725rem;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        color: #64748b;
-        letter-spacing: 0.05em;
+        color: #b45309 !important;
+        letter-spacing: 0.06em;
     }
 
     .step-name {
-        font-size: 0.875rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        color: #0f172a;
+        color: #1c1917 !important;
     }
 
     /* Callout & Summary Panels */
     .summary-card {
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-left: 4px solid #2563eb;
-        border-radius: 6px;
-        padding: 1rem 1.25rem;
+        background-color: #faf6ee !important;
+        border: 1px solid #ebdcc5 !important;
+        border-left: 4px solid #b45309 !important;
+        border-radius: 8px;
+        padding: 1.15rem 1.35rem;
         font-size: 0.95rem;
-        line-height: 1.6;
-        color: #1e293b;
+        line-height: 1.65;
+        color: #292524 !important;
         margin-bottom: 1.5rem;
     }
 
+    /* Badges */
     .metric-badge {
         display: inline-block;
-        padding: 0.2rem 0.5rem;
+        padding: 0.2rem 0.55rem;
         border-radius: 4px;
         font-size: 0.75rem;
         font-weight: 600;
         font-family: 'JetBrains Mono', monospace;
     }
 
-    .badge-success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-    .badge-warning { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-    .badge-info { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-gold { background: #fef3c7 !important; color: #92400e !important; border: 1px solid #fde68a !important; }
+    .badge-success { background: #ecfdf5 !important; color: #047857 !important; border: 1px solid #a7f3d0 !important; }
+    .badge-neutral { background: #f5efe6 !important; color: #78350f !important; border: 1px solid #e7dfd5 !important; }
 
-    /* Evidence Cards */
+    /* Evidence & Source Boxes */
     .source-box {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        padding: 0.85rem 1rem;
-        margin-bottom: 0.75rem;
-        transition: border-color 0.15s ease;
-    }
-    .source-box:hover {
-        border-color: #94a3b8;
+        background: #ffffff !important;
+        border: 1px solid #e8dfd2 !important;
+        border-radius: 8px;
+        padding: 1rem 1.15rem;
+        margin-bottom: 0.85rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
     }
 
-    /* Clean Tabs */
+    .source-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #1c1917 !important;
+    }
+
+    .source-link {
+        font-size: 0.825rem;
+        color: #b45309 !important;
+        text-decoration: none;
+        margin-bottom: 0.4rem;
+        display: inline-block;
+        font-weight: 500;
+    }
+    .source-link:hover {
+        text-decoration: underline;
+        color: #78350f !important;
+    }
+
+    .source-snippet {
+        font-size: 0.85rem;
+        color: #44403c !important;
+        background: #faf6ee !important;
+        padding: 0.6rem 0.85rem;
+        border-radius: 6px;
+        border-left: 3px solid #d97706;
+        line-height: 1.55;
+    }
+
+    /* Streamlit Tabs Styling - Fixed High Contrast */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
+        gap: 1.75rem;
+        border-bottom: 1px solid #e7dfd5 !important;
+        background-color: transparent !important;
     }
 
     .stTabs [data-baseweb="tab"] {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #64748b;
-        padding: 0.5rem 0.25rem;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        color: #78716c !important;
+        padding: 0.6rem 0.25rem !important;
+        background-color: transparent !important;
     }
 
     .stTabs [aria-selected="true"] {
-        color: #0f172a !important;
+        color: #92400e !important;
+        border-bottom-color: #b45309 !important;
+        border-bottom-width: 2px !important;
+        background-color: transparent !important;
+    }
+
+    /* Buttons */
+    button[kind="primary"] {
+        background-color: #b45309 !important;
+        border-color: #b45309 !important;
+        color: #ffffff !important;
         font-weight: 600 !important;
-        border-bottom-color: #0f172a !important;
+        border-radius: 6px !important;
+    }
+    button[kind="primary"]:hover {
+        background-color: #92400e !important;
+        border-color: #92400e !important;
+    }
+
+    button[kind="secondary"] {
+        background-color: #ffffff !important;
+        border: 1px solid #d6cbba !important;
+        color: #44403c !important;
+        font-weight: 500 !important;
+        border-radius: 6px !important;
+    }
+
+    /* Streamlit Text Area & Inputs */
+    .stTextArea textarea {
+        background-color: #ffffff !important;
+        color: #1c1917 !important;
+        border: 1px solid #d6cbba !important;
+        border-radius: 8px !important;
+    }
+    .stTextArea textarea:focus {
+        border-color: #b45309 !important;
+        box-shadow: 0 0 0 1px #b45309 !important;
+    }
+
+    /* Sidebar Background */
+    [data-testid="stSidebar"] {
+        background-color: #f7f3ec !important;
+        border-right: 1px solid #e7dfd5 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -238,9 +309,6 @@ PRESET_QUERIES = {
 # -----------------------------------------------------------------------------
 # Section 1: Application Header & System Status
 # -----------------------------------------------------------------------------
-active_keys = [k for k in ["OPENAI_API_KEY", "GEMINI_API_KEY", "GROQ_API_KEY"] if os.getenv(k)]
-is_live_configured = len(active_keys) > 0
-
 st.markdown("""
 <div class="header-box">
     <div>
@@ -252,15 +320,15 @@ st.markdown("""
             <span class="mode-dot"></span>
             <span>Deterministic Local Engine</span>
         </div>
-        <div style="font-size: 0.725rem; color: #94a3b8; margin-top: 0.25rem;">
-            Zero-cost reproducible runtime &bull; Live DDG fallback ready
+        <div style="font-size: 0.725rem; color: #a8a29e; margin-top: 0.25rem;">
+            Warm Cream & Gold Theme &bull; Zero-cost reproducible runtime
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# Sidebar Configuration (Subtle & Collapsible)
+# Sidebar Configuration
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("### System Settings")
@@ -370,22 +438,22 @@ if run_requested:
             <div class="step-card completed">
                 <span class="step-num">Stage 1</span>
                 <span class="step-name">Research Plan</span>
-                <span style="font-size: 0.75rem; color: #059669;">Formulated ({len(trace.plan.decomposed_steps) if trace.plan else 0} steps)</span>
+                <span style="font-size: 0.775rem; color: #047857; font-weight: 600;">Formulated ({len(trace.plan.decomposed_steps) if trace.plan else 0} steps)</span>
             </div>
             <div class="step-card completed">
                 <span class="step-num">Stage 2</span>
                 <span class="step-name">Tool Execution</span>
-                <span style="font-size: 0.75rem; color: #059669;">{len(trace.tool_executions)} calls executed</span>
+                <span style="font-size: 0.775rem; color: #047857; font-weight: 600;">{len(trace.tool_executions)} calls executed</span>
             </div>
             <div class="step-card completed">
                 <span class="step-num">Stage 3</span>
                 <span class="step-name">Synthesis</span>
-                <span style="font-size: 0.75rem; color: #059669;">Schema Validated</span>
+                <span style="font-size: 0.775rem; color: #047857; font-weight: 600;">Schema Validated</span>
             </div>
             <div class="step-card completed">
                 <span class="step-num">Stage 4</span>
                 <span class="step-name">Judge Audit</span>
-                <span style="font-size: 0.75rem; color: #059669;">Grounding: {int(trace.judge_evaluation.grounding_score * 100) if trace.judge_evaluation else 90}%</span>
+                <span style="font-size: 0.775rem; color: #047857; font-weight: 600;">Grounding: {int(trace.judge_evaluation.grounding_score * 100) if trace.judge_evaluation else 90}%</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -407,7 +475,7 @@ if run_requested:
             
             st.markdown(f"""
             <div class="summary-card">
-                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb; margin-bottom: 0.25rem;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #b45309; margin-bottom: 0.35rem;">
                     Executive Summary
                 </div>
                 {resp.short_answer}
@@ -430,7 +498,7 @@ if run_requested:
                 st.markdown("#### Assessment & Rigor")
                 
                 # Confidence Meter
-                conf_badge = "badge-success" if resp.confidence_level == "High" else "badge-warning"
+                conf_badge = "badge-success" if resp.confidence_level == "High" else "badge-gold"
                 st.markdown(
                     f"Confidence Tier: <span class='metric-badge {conf_badge}'>{resp.confidence_level} ({int(resp.confidence_score * 100)}%)</span>",
                     unsafe_allow_html=True
@@ -440,7 +508,7 @@ if run_requested:
 
                 st.markdown("##### Limitations & Boundaries")
                 for lim in resp.limitations_or_assumptions:
-                    st.markdown(f"<span style='font-size: 0.85rem; color: #475569;'>&bull; {lim}</span>", unsafe_allow_html=True)
+                    st.markdown(f"<span style='font-size: 0.85rem; color: #44403c;'>&bull; {lim}</span>", unsafe_allow_html=True)
 
         # -------------------------------------------------------------------------
         # Tab 2: Planning & Tool Orchestration
@@ -451,16 +519,16 @@ if run_requested:
                 st.markdown(f"**Intent Analysis:** {trace.plan.intent_analysis}")
                 
                 for s in trace.plan.decomposed_steps:
-                    status_badge = "badge-success" if s.status == "completed" else "badge-warning"
+                    status_badge = "badge-success" if s.status == "completed" else "badge-gold"
                     st.markdown(f"""
                     <div class="source-box">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                            <span style="font-weight: 600; font-size: 0.9rem;">Step {s.step_id}: {s.description}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                            <span style="font-weight: 600; font-size: 0.9rem; color: #1c1917;">Step {s.step_id}: {s.description}</span>
                             <span class="metric-badge {status_badge}">{s.tool_needed}</span>
                         </div>
-                        <div style="font-size: 0.825rem; color: #64748b;">
-                            <strong>Rationale:</strong> {s.rationale}<br/>
-                            <strong>Input Parameters:</strong> <code>{json.dumps(s.tool_input)}</code>
+                        <div style="font-size: 0.825rem; color: #78716c;">
+                            <strong style="color: #44403c;">Rationale:</strong> {s.rationale}<br/>
+                            <strong style="color: #44403c;">Input Parameters:</strong> <code>{json.dumps(s.tool_input)}</code>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -468,7 +536,7 @@ if run_requested:
             st.markdown("---")
             st.markdown("#### Tool Execution Console")
             for idx, te in enumerate(trace.tool_executions, 1):
-                badge_class = "badge-success" if te.success else "badge-warning"
+                badge_class = "badge-success" if te.success else "badge-gold"
                 cached_tag = " [Cached]" if te.cached else ""
                 sanitized_tag = " [Sanitized]" if te.sanitized else ""
                 
@@ -500,13 +568,13 @@ if run_requested:
                     st.markdown(f"""
                     <div class="source-box">
                         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">[{src.id}] {src.title}</span>
-                            <span class="metric-badge badge-info">{int(src.reliability_score * 100)}% Reliability</span>
+                            <span class="source-title">[{src.id}] {src.title}</span>
+                            <span class="metric-badge badge-gold">{int(src.reliability_score * 100)}% Reliability</span>
                         </div>
-                        <div style="font-size: 0.8rem; color: #2563eb; margin-bottom: 0.35rem;">
-                            <a href="{src.url}" target="_blank" style="text-decoration: none; color: #2563eb;">{src.url} &nearr;</a>
+                        <div>
+                            <a class="source-link" href="{src.url}" target="_blank">{src.url} &nearr;</a>
                         </div>
-                        <div style="font-size: 0.85rem; color: #334155; background: #f8fafc; padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 2px solid #cbd5e1;">
+                        <div class="source-snippet">
                             <em>"{src.snippet}"</em>
                         </div>
                     </div>
@@ -561,19 +629,19 @@ else:
     # Section 4: Initial Empty State
     # -----------------------------------------------------------------------------
     st.markdown("""
-    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 2.5rem 2rem; text-align: center; margin-top: 1rem;">
-        <div style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin-bottom: 0.5rem;">
+    <div style="background: #faf6ee; border: 1px dashed #ebdcc5; border-radius: 8px; padding: 2.5rem 2rem; text-align: center; margin-top: 1rem;">
+        <div style="font-size: 1.15rem; font-weight: 700; color: #1c1917; margin-bottom: 0.5rem;">
             Ready to Investigate Technical Inquiries
         </div>
-        <p style="font-size: 0.9rem; color: #64748b; max-width: 600px; margin: 0 auto 1.5rem auto;">
+        <p style="font-size: 0.925rem; color: #78716c; max-width: 600px; margin: 0 auto 1.5rem auto; line-height: 1.6;">
             Select one of the benchmark evaluation presets above or enter a custom technical inquiry. 
             The agent will decompose your question into logical steps, query authoritative benchmarks and live web resources, 
             and produce a verified, source-grounded report.
         </p>
-        <div style="display: flex; justify-content: center; gap: 2rem; font-size: 0.8rem; color: #475569;">
-            <span>&check; <strong>4 Resilient Tools</strong> (KB, Search, Fetcher, Verifier)</span>
-            <span>&check; <strong>Prompt Injection Defenses</strong></span>
-            <span>&check; <strong>Independent Judge Audit</strong></span>
+        <div style="display: flex; justify-content: center; gap: 2rem; font-size: 0.85rem; color: #44403c;">
+            <span>&check; <strong style="color: #92400e;">4 Resilient Tools</strong> (KB, Search, Fetcher, Verifier)</span>
+            <span>&check; <strong style="color: #92400e;">Prompt Injection Defenses</strong></span>
+            <span>&check; <strong style="color: #92400e;">Independent Judge Audit</strong></span>
         </div>
     </div>
     """, unsafe_allow_html=True)
