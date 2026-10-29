@@ -108,7 +108,7 @@ class MockResearchLLM(BaseLLM):
         return "{}"
 
     def generate_structured(self, prompt: str, response_model: Type[BaseModel], system_prompt: Optional[str] = None) -> BaseModel:
-        from src.schema import ResearchPlan, PlanStep, FinalResearchResponse, SourceReference, JudgeEvaluation
+        from src.schema import ResearchPlan, PlanStep, FinalResearchResponse, SourceReference, JudgeEvaluation, ComparisonRow
         
         # If schema is ResearchPlan:
         if response_model == ResearchPlan:
@@ -260,7 +260,36 @@ class MockResearchLLM(BaseLLM):
                         "Benchmark Qdrant and Chroma against your domain-specific embedding model (e.g., text-embedding-3-small).",
                         "Evaluate whether your application requires hybrid search (vector similarity + exact keyword matching).",
                         "Start with containerized Qdrant; establish latency SLOs for top-k retrieval before scaling to distributed clusters."
-                    ]
+                    ],
+                    comparison_matrix=[
+                        ComparisonRow(
+                            entity="Qdrant",
+                            category_or_license="Apache 2.0 (Rust)",
+                            key_capabilities="Payload filtering, native hybrid search, HNSW index optimization",
+                            tradeoff_or_positioning="Recommended for startups: low ops footprint, scales to 20M+ vectors [1]",
+                            source_citation="[1]"
+                        ),
+                        ComparisonRow(
+                            entity="Chroma",
+                            category_or_license="Apache 2.0 (Python)",
+                            key_capabilities="Embedded in-process storage, zero-config local prototyping",
+                            tradeoff_or_positioning="Optimal for early MVPs; write-throughput bottlenecks at scale [2]",
+                            source_citation="[2]"
+                        ),
+                        ComparisonRow(
+                            entity="Milvus",
+                            category_or_license="Apache 2.0 (Go/C++)",
+                            key_capabilities="Distributed cloud-native cluster, IVF/HNSW/SCaNN algorithms",
+                            tradeoff_or_positioning="Overkill for lean startups: heavy Kubernetes/Kafka/MinIO DevOps burden [3]",
+                            source_citation="[3]"
+                        )
+                    ],
+                    confidence_breakdown={
+                        "source_availability": 1.0,
+                        "average_reliability": 0.92,
+                        "tool_success_ratio": 1.0,
+                        "judge_grounding": 0.94
+                    }
                 )
             elif "hr tech" in prompt.lower() or "b2b saas" in prompt.lower():
                 return FinalResearchResponse(
@@ -298,7 +327,50 @@ class MockResearchLLM(BaseLLM):
                     suggested_next_steps=[
                         "Map the pricing tiers of SME-focused solutions vs enterprise custom contracts.",
                         "Analyze how generative AI features are being monetized as add-ons in these platforms."
-                    ]
+                    ],
+                    comparison_matrix=[
+                        ComparisonRow(
+                            entity="Darwinbox",
+                            category_or_license="Enterprise HCM",
+                            key_capabilities="End-to-end hire-to-retire, Asian statutory localization, mobile check-ins",
+                            tradeoff_or_positioning="Targets 5,000+ employee Asian/MENA enterprises against Workday/SAP [1]",
+                            source_citation="[1]"
+                        ),
+                        ComparisonRow(
+                            entity="Keka HR",
+                            category_or_license="Mid-Market HRMS",
+                            key_capabilities="Payroll automation, modern UX, performance management, attendance",
+                            tradeoff_or_positioning="Dominates Indian tech/IT mid-market (50-2,000 employees) [1]",
+                            source_citation="[1]"
+                        ),
+                        ComparisonRow(
+                            entity="greytHR",
+                            category_or_license="SMB Payroll & Compliance",
+                            key_capabilities="100% Indian statutory compliance (PF/ESI/TDS), attendance tracking",
+                            tradeoff_or_positioning="Backbone for 20,000+ SMBs (10-500 employees); accountant network defensibility [1]",
+                            source_citation="[1]"
+                        ),
+                        ComparisonRow(
+                            entity="ZingHR",
+                            category_or_license="Frontline Enterprise HCM",
+                            key_capabilities="Mobile-first check-ins, micro-learning, earned wage access fintech",
+                            tradeoff_or_positioning="Specializes in distributed retail, manufacturing, BFSI workforces [1]",
+                            source_citation="[1]"
+                        ),
+                        ComparisonRow(
+                            entity="Leena AI",
+                            category_or_license="AI Service Delivery Agent",
+                            key_capabilities="Autonomous Slack/MS Teams conversational HR ticket resolution",
+                            tradeoff_or_positioning="AI-first employee experience automating 70%+ of tier-1 HR inquiries [2]",
+                            source_citation="[2]"
+                        )
+                    ],
+                    confidence_breakdown={
+                        "source_availability": 0.85,
+                        "average_reliability": 0.89,
+                        "tool_success_ratio": 1.0,
+                        "judge_grounding": 0.94
+                    }
                 )
             elif "multi-agent" in prompt.lower() or "support" in prompt.lower():
                 return FinalResearchResponse(
@@ -330,7 +402,14 @@ class MockResearchLLM(BaseLLM):
                         "Implement strict maximum turn limits and circuit breakers to prevent infinite agent handoff loops.",
                         "Deploy a hybrid triage layer: simple queries answered by a single fast LLM, complex queries routed to specialized agents.",
                         "Instrument full trace IDs linking child agent actions to parent customer conversations."
-                    ]
+                    ],
+                    comparison_matrix=None,
+                    confidence_breakdown={
+                        "source_availability": 0.65,
+                        "average_reliability": 0.93,
+                        "tool_success_ratio": 1.0,
+                        "judge_grounding": 0.94
+                    }
                 )
             else:
                 return FinalResearchResponse(
@@ -358,7 +437,14 @@ class MockResearchLLM(BaseLLM):
                     suggested_next_steps=[
                         "Execute domain-specific end-to-end integration benchmarks.",
                         "Establish continuous monitoring metrics for latency and cost in production."
-                    ]
+                    ],
+                    comparison_matrix=None,
+                    confidence_breakdown={
+                        "source_availability": 0.65,
+                        "average_reliability": 0.91,
+                        "tool_success_ratio": 1.0,
+                        "judge_grounding": 0.90
+                    }
                 )
 
         # If schema is JudgeEvaluation:

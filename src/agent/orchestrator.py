@@ -150,7 +150,9 @@ class ResearchAgent:
                 confidence_level="Low",
                 confidence_score=0.0,
                 limitations_or_assumptions=[f"Pipeline error: {str(e)}"],
-                suggested_next_steps=["Inspect system trace logs and retry with a narrower search query."]
+                suggested_next_steps=["Inspect system trace logs and retry with a narrower search query."],
+                comparison_matrix=None,
+                confidence_breakdown=None
             )
 
         end_perf = time.perf_counter()
