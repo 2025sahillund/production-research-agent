@@ -43,3 +43,4 @@ class BaselineComparisonTool(BaseTool):
             "has_verification_judge": False,
             "observation": "Lacks real-time benchmark verification, citation URLs, and schema validation."
         }
+

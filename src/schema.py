@@ -28,6 +28,11 @@ class ToolResult(BaseModel):
     cached: bool = False
     sanitized: bool = False
     warning: Optional[str] = None
+    retrieved_count: int = 0
+    filtered_count: int = 0
+    origin_type: str = "live"
+    retry_count: int = 0
+    fallback_triggered: bool = False
 
 
 class PlanStep(BaseModel):
@@ -50,13 +55,24 @@ class ResearchPlan(BaseModel):
 
 
 class SourceReference(BaseModel):
-    """A grounded, verified source citation."""
+    """A grounded, verified source citation with provenance tracking."""
     id: int
     title: str
     url: str
     snippet: str
     reliability_score: float = Field(default=0.8, ge=0.0, le=1.0)
     domain: Optional[str] = None
+    origin_type: Literal["live_web", "curated_kb", "scraped_page", "fallback_index"] = "live_web"
+    retrieval_status: str = "200 OK"
+
+
+class ComparisonRow(BaseModel):
+    """Structured entity comparison row for market research or technical matrices."""
+    entity: str
+    category_or_license: str
+    key_capabilities: str
+    tradeoff_or_positioning: str
+    source_citation: Optional[str] = None
 
 
 class FinalResearchResponse(BaseModel):
@@ -78,6 +94,8 @@ class FinalResearchResponse(BaseModel):
     confidence_score: float = Field(..., ge=0.0, le=1.0, description="Numerical confidence 0.0 - 1.0")
     limitations_or_assumptions: List[str]
     suggested_next_steps: List[str]
+    comparison_matrix: Optional[List[ComparisonRow]] = None
+    confidence_breakdown: Optional[Dict[str, float]] = None
     execution_metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -104,4 +122,3 @@ class ExecutionTrace(BaseModel):
     judge_evaluation: Optional[JudgeEvaluation] = None
     warnings: List[str] = Field(default_factory=list)
     errors: List[str] = Field(default_factory=list)
-

@@ -1,9 +1,9 @@
 {
-  "trace_id": "3b99b625",
+  "trace_id": "820db448",
   "user_query": "Compare the top 3 open-source vector databases for a startup building RAG products.",
-  "start_time": "2026-10-29T20:17:48.938119",
-  "end_time": "2026-10-29T20:17:49.378042",
-  "duration_ms": 439.91,
+  "start_time": "2026-10-29T21:20:39.044668",
+  "end_time": "2026-10-29T21:20:39.350109",
+  "duration_ms": 305.43,
   "plan": {
     "user_query": "User Research Query: \"Compare the top 3 open-source vector databases for a startup building RAG products.\"\n\nAnalyze the intent and create an optimized, step-by-step research plan. Select the most appropriate tool for each step.",
     "intent_analysis": "Comparative analysis of open-source vector databases tailored for startup RAG architecture.",
@@ -65,7 +65,12 @@
       "latency_ms": 0.0,
       "cached": false,
       "sanitized": false,
-      "warning": null
+      "warning": null,
+      "retrieved_count": 1,
+      "filtered_count": 0,
+      "origin_type": "curated_kb",
+      "retry_count": 0,
+      "fallback_triggered": false
     },
     {
       "tool_name": "web_search",
@@ -94,10 +99,15 @@
         ]
       },
       "error": null,
-      "latency_ms": 438.83,
+      "latency_ms": 304.46,
       "cached": false,
       "sanitized": false,
-      "warning": null
+      "warning": null,
+      "retrieved_count": 3,
+      "filtered_count": 1,
+      "origin_type": "fallback_index",
+      "retry_count": 0,
+      "fallback_triggered": true
     },
     {
       "tool_name": "fact_checker",
@@ -113,10 +123,15 @@
         ]
       },
       "error": null,
-      "latency_ms": 0.01,
+      "latency_ms": 0.0,
       "cached": false,
       "sanitized": false,
-      "warning": null
+      "warning": null,
+      "retrieved_count": 0,
+      "filtered_count": 0,
+      "origin_type": "verification_rule",
+      "retry_count": 0,
+      "fallback_triggered": false
     }
   ],
   "final_response": {
@@ -135,7 +150,9 @@
         "url": "https://research.engineering/vector-db-benchmarks",
         "snippet": "Comparison of top open-source vector databases for startup RAG applications:\n\n1. Qdrant:\n- Architecture: Written in Rust; memory-efficient and highly performant.\n- Key Features: Native payload-based filtering, advanced HNSW index, built-in hybrid sea...",
         "reliability_score": 0.96,
-        "domain": "internal-kb"
+        "domain": "internal-kb",
+        "origin_type": "curated_kb",
+        "retrieval_status": "200 Verified"
       },
       {
         "id": 2,
@@ -143,7 +160,9 @@
         "url": "https://vector-radar.io/benchmarks/2026/top-vector-dbs",
         "snippet": "Rust-powered Qdrant delivers 4x higher throughput on filtered vector search compared to Python-based engines. Chroma remains favorite for local prototypes.",
         "reliability_score": 0.95,
-        "domain": "vector-radar.io"
+        "domain": "vector-radar.io",
+        "origin_type": "fallback_index",
+        "retrieval_status": "Cached Fallback"
       },
       {
         "id": 3,
@@ -151,7 +170,9 @@
         "url": "https://rag-architects.dev/vector-stores-startup-guide",
         "snippet": "Startups should evaluate operational complexity. Milvus requires dedicated Kubernetes orchestration. Qdrant runs as a single docker container with built-in hybrid search.",
         "reliability_score": 0.92,
-        "domain": "rag-architects.dev"
+        "domain": "rag-architects.dev",
+        "origin_type": "fallback_index",
+        "retrieval_status": "Cached Fallback"
       }
     ],
     "confidence_level": "High",
@@ -166,9 +187,38 @@
       "Evaluate whether your application requires hybrid search (vector similarity + exact keyword matching).",
       "Start with containerized Qdrant; establish latency SLOs for top-k retrieval before scaling to distributed clusters."
     ],
+    "comparison_matrix": [
+      {
+        "entity": "Qdrant",
+        "category_or_license": "Apache 2.0 (Rust)",
+        "key_capabilities": "Payload filtering, native hybrid search, HNSW index optimization",
+        "tradeoff_or_positioning": "Recommended for startups: low ops footprint, scales to 20M+ vectors [1]",
+        "source_citation": "[1]"
+      },
+      {
+        "entity": "Chroma",
+        "category_or_license": "Apache 2.0 (Python)",
+        "key_capabilities": "Embedded in-process storage, zero-config local prototyping",
+        "tradeoff_or_positioning": "Optimal for early MVPs; write-throughput bottlenecks at scale [2]",
+        "source_citation": "[2]"
+      },
+      {
+        "entity": "Milvus",
+        "category_or_license": "Apache 2.0 (Go/C++)",
+        "key_capabilities": "Distributed cloud-native cluster, IVF/HNSW/SCaNN algorithms",
+        "tradeoff_or_positioning": "Overkill for lean startups: heavy Kubernetes/Kafka/MinIO DevOps burden [3]",
+        "source_citation": "[3]"
+      }
+    ],
+    "confidence_breakdown": {
+      "source_availability": 1.0,
+      "average_reliability": 0.94,
+      "tool_success_ratio": 1.0,
+      "judge_grounding": 0.94
+    },
     "execution_metadata": {
-      "trace_id": "3b99b625",
-      "duration_ms": 439.84,
+      "trace_id": "820db448",
+      "duration_ms": 305.38,
       "tool_calls_count": 3,
       "successful_tool_calls": 3,
       "llm_provider": "MockResearchLLM"

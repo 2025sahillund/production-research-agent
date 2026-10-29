@@ -5,6 +5,7 @@ Base Tool definition with built-in resilience:
 - Caching layer
 - Malformed output protection
 - Multi-vector Prompt Injection detection & sanitization
+- Telemetry attributes (retrieval counts, origin, retries)
 """
 
 import time
@@ -54,6 +55,7 @@ class BaseTool(ABC):
         - Retry logic with backoff
         - Error boundary (never raises an unhandled exception into the agent loop)
         - Output sanitization
+        - Telemetry provenance recording
         """
         cache_key = f"{self.name}:{sorted(kwargs.items())}"
         if settings.CACHE_TOOL_CALLS and cache_key in self._cache:
@@ -71,7 +73,7 @@ class BaseTool(ABC):
         while retries <= settings.TOOL_MAX_RETRIES:
             try:
                 raw_data = self._run(**kwargs)
-                latency_ms = round((time.perf_counter() - start_perf_time(start_time)) * 1000, 2)
+                latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
                 
                 # Check and sanitize output for security
                 sanitized = False
@@ -83,6 +85,28 @@ class BaseTool(ABC):
                         warning = "Security: Potential indirect prompt injection pattern detected and sanitized."
                         raw_data = cleaned_data
 
+                # Extract telemetry signals
+                retrieved_count = 1
+                filtered_count = 0
+                origin_type = "local"
+                fallback_triggered = False
+
+                if isinstance(raw_data, dict):
+                    retrieved_count = raw_data.get("total_retrieved", 1 if raw_data.get("found") or raw_data.get("success") else 0)
+                    filtered_count = raw_data.get("discarded_noise_count", 0)
+                    mode_val = raw_data.get("mode")
+                    if mode_val == "live_web":
+                        origin_type = "live_web"
+                    elif mode_val == "fallback_index":
+                        origin_type = "fallback_index"
+                        fallback_triggered = True
+                    elif self.name == "tech_kb":
+                        origin_type = "curated_kb"
+                    elif self.name == "content_fetcher":
+                        origin_type = "scraped_page" if not raw_data.get("simulated") else "fallback_index"
+                    elif self.name == "fact_checker":
+                        origin_type = "verification_rule"
+
                 result = ToolResult(
                     tool_name=self.name,
                     query=query_repr,
@@ -91,7 +115,12 @@ class BaseTool(ABC):
                     data=raw_data,
                     latency_ms=latency_ms,
                     sanitized=sanitized,
-                    warning=warning
+                    warning=warning,
+                    retrieved_count=retrieved_count,
+                    filtered_count=filtered_count,
+                    origin_type=origin_type,
+                    retry_count=retries,
+                    fallback_triggered=fallback_triggered
                 )
                 
                 if settings.CACHE_TOOL_CALLS:
@@ -115,7 +144,9 @@ class BaseTool(ABC):
             status_code=500,
             data=None,
             error=f"Tool execution failed after {settings.TOOL_MAX_RETRIES + 1} attempts: {last_error}",
-            latency_ms=latency_ms
+            latency_ms=latency_ms,
+            retry_count=retries - 1,
+            origin_type="error"
         )
 
     def _sanitize_prompt_injection(self, data: Any) -> tuple[Any, bool]:
@@ -149,7 +180,3 @@ class BaseTool(ABC):
             return cleaned_dict, detected
         
         return data, False
-
-
-def start_perf_time(start_time: float) -> float:
-    return start_time

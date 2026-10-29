@@ -47,9 +47,10 @@ def test_calibrated_confidence_calculation():
     from src.schema import SourceReference, ToolResult, JudgeEvaluation
 
     # Case 1: Zero sources should yield Low confidence
-    level_empty, score_empty = calculate_calibrated_confidence([], [])
+    level_empty, score_empty, breakdown_empty = calculate_calibrated_confidence([], [])
     assert level_empty == "Low"
     assert score_empty <= 0.45
+    assert "source_availability" in breakdown_empty
 
     # Case 2: 3 authoritative sources + successful tools + high judge grounding -> High confidence
     sources = [
@@ -67,7 +68,8 @@ def test_calibrated_confidence_calculation():
         hallucination_risk="Low",
         completeness_score=0.95
     )
-    level_high, score_high = calculate_calibrated_confidence(sources, tools, judge)
+    level_high, score_high, breakdown_high = calculate_calibrated_confidence(sources, tools, judge)
     assert level_high == "High"
     assert score_high >= 0.85
+    assert breakdown_high["judge_grounding"] == 0.95
 

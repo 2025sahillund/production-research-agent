@@ -121,13 +121,14 @@ class ResearchAgent:
                 trace.judge_evaluation = judge_eval
                 
                 # Recalibrate confidence incorporating the Judge's audit findings
-                calibrated_level, calibrated_score = calculate_calibrated_confidence(
+                calibrated_level, calibrated_score, calibrated_breakdown = calculate_calibrated_confidence(
                     final_response.sources_used,
                     tool_results,
                     judge_eval=judge_eval
                 )
                 final_response.confidence_level = calibrated_level
                 final_response.confidence_score = calibrated_score
+                final_response.confidence_breakdown = calibrated_breakdown
 
                 # Guardrail: If hallucination risk is High or grounding is below threshold, adjust limitations
                 if judge_eval.hallucination_risk == "High" or judge_eval.grounding_score < 0.60:

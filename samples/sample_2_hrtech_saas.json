@@ -1,9 +1,9 @@
 {
-  "trace_id": "9a6606e2",
+  "trace_id": "6b93ce18",
   "user_query": "Find 5 Indian B2B SaaS startups in HR tech and summarize their positioning.",
-  "start_time": "2026-10-29T20:17:49.385524",
-  "end_time": "2026-10-29T20:17:49.684090",
-  "duration_ms": 298.55,
+  "start_time": "2026-10-29T21:20:39.350937",
+  "end_time": "2026-10-29T21:20:39.599357",
+  "duration_ms": 248.41,
   "plan": {
     "user_query": "User Research Query: \"Find 5 Indian B2B SaaS startups in HR tech and summarize their positioning.\"\n\nAnalyze the intent and create an optimized, step-by-step research plan. Select the most appropriate tool for each step.",
     "intent_analysis": "Market research and positioning synthesis of Indian B2B HR Tech SaaS companies.",
@@ -55,7 +55,12 @@
       "latency_ms": 0.01,
       "cached": false,
       "sanitized": false,
-      "warning": null
+      "warning": null,
+      "retrieved_count": 1,
+      "filtered_count": 0,
+      "origin_type": "curated_kb",
+      "retry_count": 0,
+      "fallback_triggered": false
     },
     {
       "tool_name": "web_search",
@@ -84,10 +89,15 @@
         ]
       },
       "error": null,
-      "latency_ms": 298.17,
+      "latency_ms": 248.07,
       "cached": false,
       "sanitized": false,
-      "warning": null
+      "warning": null,
+      "retrieved_count": 2,
+      "filtered_count": 0,
+      "origin_type": "fallback_index",
+      "retry_count": 0,
+      "fallback_triggered": true
     }
   ],
   "final_response": {
@@ -107,7 +117,9 @@
         "url": "https://saas-insights.io/reports/india-hrtech-market-map",
         "snippet": "Analysis of 5 key Indian B2B SaaS Startups in HR Tech and their strategic positioning:\n\n1. Darwinbox:\n- Market Positioning: Enterprise Human Capital Management (HCM) platform tailored for Asian and MENA multinational corporations.\n- Target Segment: L...",
         "reliability_score": 0.93,
-        "domain": "internal-kb"
+        "domain": "internal-kb",
+        "origin_type": "curated_kb",
+        "retrieval_status": "200 Verified"
       },
       {
         "id": 2,
@@ -115,7 +127,9 @@
         "url": "https://inc42.com/features/indian-hr-tech-saas-ecosystem/",
         "snippet": "Darwinbox leads enterprise HCM market, while Keka and greytHR serve mid-market and SMB payroll compliance. ZingHR focuses on frontline mobile workforce.",
         "reliability_score": 0.94,
-        "domain": "inc42.com"
+        "domain": "inc42.com",
+        "origin_type": "fallback_index",
+        "retrieval_status": "Cached Fallback"
       },
       {
         "id": 3,
@@ -123,7 +137,9 @@
         "url": "https://techcrunch.com/leena-ai-autonomous-hr-service-delivery",
         "snippet": "Leena AI automates HR helpdesk workflows using LLMs, answering common policy and leave inquiries instantly.",
         "reliability_score": 0.91,
-        "domain": "techcrunch.com"
+        "domain": "techcrunch.com",
+        "origin_type": "fallback_index",
+        "retrieval_status": "Cached Fallback"
       }
     ],
     "confidence_level": "High",
@@ -136,9 +152,52 @@
       "Map the pricing tiers of SME-focused solutions vs enterprise custom contracts.",
       "Analyze how generative AI features are being monetized as add-ons in these platforms."
     ],
+    "comparison_matrix": [
+      {
+        "entity": "Darwinbox",
+        "category_or_license": "Enterprise HCM",
+        "key_capabilities": "End-to-end hire-to-retire, Asian statutory localization, mobile check-ins",
+        "tradeoff_or_positioning": "Targets 5,000+ employee Asian/MENA enterprises against Workday/SAP [1]",
+        "source_citation": "[1]"
+      },
+      {
+        "entity": "Keka HR",
+        "category_or_license": "Mid-Market HRMS",
+        "key_capabilities": "Payroll automation, modern UX, performance management, attendance",
+        "tradeoff_or_positioning": "Dominates Indian tech/IT mid-market (50-2,000 employees) [1]",
+        "source_citation": "[1]"
+      },
+      {
+        "entity": "greytHR",
+        "category_or_license": "SMB Payroll & Compliance",
+        "key_capabilities": "100% Indian statutory compliance (PF/ESI/TDS), attendance tracking",
+        "tradeoff_or_positioning": "Backbone for 20,000+ SMBs (10-500 employees); accountant network defensibility [1]",
+        "source_citation": "[1]"
+      },
+      {
+        "entity": "ZingHR",
+        "category_or_license": "Frontline Enterprise HCM",
+        "key_capabilities": "Mobile-first check-ins, micro-learning, earned wage access fintech",
+        "tradeoff_or_positioning": "Specializes in distributed retail, manufacturing, BFSI workforces [1]",
+        "source_citation": "[1]"
+      },
+      {
+        "entity": "Leena AI",
+        "category_or_license": "AI Service Delivery Agent",
+        "key_capabilities": "Autonomous Slack/MS Teams conversational HR ticket resolution",
+        "tradeoff_or_positioning": "AI-first employee experience automating 70%+ of tier-1 HR inquiries [2]",
+        "source_citation": "[2]"
+      }
+    ],
+    "confidence_breakdown": {
+      "source_availability": 1.0,
+      "average_reliability": 0.93,
+      "tool_success_ratio": 1.0,
+      "judge_grounding": 0.94
+    },
     "execution_metadata": {
-      "trace_id": "9a6606e2",
-      "duration_ms": 298.53,
+      "trace_id": "6b93ce18",
+      "duration_ms": 248.39,
       "tool_calls_count": 2,
       "successful_tool_calls": 2,
       "llm_provider": "MockResearchLLM"

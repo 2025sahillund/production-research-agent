@@ -1,7 +1,6 @@
 """
-AI Research Agent - Enterprise Research Workspace
-Engineered for deep technical synthesis, resilient tool orchestration,
-and automated judge verification.
+Production AI Research Agent - Evidence-Driven Research Workspace
+Senior AI Product Engineering Implementation
 """
 
 import streamlit as st
@@ -20,14 +19,14 @@ from src.config import settings
 # Page Configuration
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="AI Research Agent | Enterprise Workspace",
+    page_title="AI Research Agent | Evidence Workspace",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
 # -----------------------------------------------------------------------------
-# Enterprise Midnight & Electric Cyan Styling (Linear / Perplexity Pro style)
+# Enterprise Dark Theme CSS
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
@@ -49,13 +48,13 @@ st.markdown("""
         max-width: 1240px;
     }
 
-    /* Minimalist High-End Navbar */
+    /* Minimalist Navbar */
     .top-nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding-bottom: 1.25rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid #1E2433;
         margin-bottom: 1.5rem;
     }
 
@@ -92,7 +91,7 @@ st.markdown("""
         box-shadow: 0 0 8px #38BDF8;
     }
 
-    /* 4-Stage Horizontal Pipeline Bar */
+    /* Stepper Bar */
     .pipeline-bar {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -105,7 +104,6 @@ st.markdown("""
         border: 1px solid #1E2433;
         border-radius: 8px;
         padding: 0.75rem 1rem;
-        transition: all 0.2s ease;
     }
 
     .pipeline-node.highlight {
@@ -146,7 +144,6 @@ st.markdown("""
         line-height: 1.65;
         color: #F8FAFC;
         margin-bottom: 1.5rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     }
 
     /* Card Panels */
@@ -165,10 +162,6 @@ st.markdown("""
         border-radius: 6px;
         padding: 0.95rem 1.15rem;
         margin-bottom: 0.75rem;
-        transition: border-color 0.15s ease;
-    }
-    .evidence-item:hover {
-        border-color: #334155;
     }
 
     .evidence-url {
@@ -178,9 +171,6 @@ st.markdown("""
         text-decoration: none;
         display: inline-block;
         margin-bottom: 0.35rem;
-    }
-    .evidence-url:hover {
-        text-decoration: underline;
     }
 
     .evidence-quote {
@@ -193,14 +183,19 @@ st.markdown("""
         line-height: 1.55;
     }
 
-    /* HUD Metrics Widget */
-    .hud-box {
-        background: #11141C;
-        border: 1px solid #1E2433;
-        border-radius: 8px;
-        padding: 1rem 1.25rem;
-        margin-bottom: 1rem;
+    /* Origin Badges */
+    .origin-badge {
+        font-size: 0.7rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 600;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        display: inline-block;
     }
+    .origin-live { background: rgba(56, 189, 248, 0.12); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .origin-kb { background: rgba(99, 102, 241, 0.12); color: #818CF8; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .origin-fallback { background: rgba(245, 158, 11, 0.12); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .origin-scraped { background: rgba(16, 185, 129, 0.12); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); }
 
     /* Tabs Styling */
     .stTabs [data-baseweb="tab-list"] {
@@ -228,7 +223,7 @@ st.markdown("""
         background-color: transparent !important;
     }
 
-    /* Primary Buttons */
+    /* Primary Button */
     button[kind="primary"] {
         background-color: #38BDF8 !important;
         border: none !important;
@@ -471,26 +466,54 @@ if run_btn:
                 for idx, finding in enumerate(resp.key_findings, 1):
                     st.markdown(f"**{idx}.** {finding}")
 
+                # Structured Comparison Table (Phase 6)
+                if resp.comparison_matrix:
+                    st.markdown("---")
+                    st.markdown("#### Structured Entity Comparison")
+                    df_comp = pd.DataFrame([row.model_dump() for row in resp.comparison_matrix])
+                    df_comp.rename(columns={
+                        "entity": "Entity / Product",
+                        "category_or_license": "Category / License",
+                        "key_capabilities": "Key Capabilities",
+                        "tradeoff_or_positioning": "Tradeoffs / Positioning",
+                        "source_citation": "Citation"
+                    }, inplace=True)
+                    st.dataframe(df_comp, use_container_width=True, hide_index=True)
+
                 st.markdown("---")
                 st.markdown("#### Suggested Next Steps")
                 for step in resp.suggested_next_steps:
                     st.markdown(f"- {step}")
 
             with col_hud:
-                # Telemetry HUD
-                st.markdown("#### Assessment & HUD")
+                # Assessment HUD with separate, transparent metrics (Phase 5)
+                st.markdown("#### Assessment & Verification HUD")
                 
-                # Confidence Meter
-                st.metric("Calibrated Confidence", f"{resp.confidence_level} ({int(resp.confidence_score * 100)}%)")
-                st.progress(resp.confidence_score)
-                st.caption("Coupled to source availability, reliability average, tool success ratio, and judge grounding.")
+                col_m1, col_m2 = st.columns(2)
+                with col_m1:
+                    st.metric("Calibrated Confidence", f"{resp.confidence_level} ({int(resp.confidence_score * 100)}%)")
+                with col_m2:
+                    st.metric("Judge Grounding", f"{grounding_score_val}%")
 
-                st.markdown("##### Limitations & Assumptions")
+                st.progress(resp.confidence_score)
+
+                # Transparent Formula Explanation Box (Phase 5)
+                with st.expander("Formula & Sub-Factor Breakdown"):
+                    st.caption("The composite confidence score balances 4 distinct measurements:")
+                    if resp.confidence_breakdown:
+                        cb = resp.confidence_breakdown
+                        st.markdown(f"- **Source Availability (35%)**: `{int(cb.get('source_availability', 0)*100)}%`")
+                        st.markdown(f"- **Source Reliability Avg (30%)**: `{int(cb.get('average_reliability', 0)*100)}%`")
+                        st.markdown(f"- **Tool Success Rate (15%)**: `{int(cb.get('tool_success_ratio', 0)*100)}%`")
+                        st.markdown(f"- **Judge Grounding Score (20%)**: `{int(cb.get('judge_grounding', 0)*100)}%`")
+                    st.caption("Note: Measures pipeline rigor and evidence completeness, not absolute statistical certainty.")
+
+                st.markdown("##### Assumptions & Limitations")
                 for lim in resp.limitations_or_assumptions:
                     st.markdown(f"<span style='font-size: 0.825rem; color: #94A3B8;'>&bull; {lim}</span>", unsafe_allow_html=True)
 
         # ---------------------------------------------------------------------
-        # Tab 2: Evidence & Sources
+        # Tab 2: Evidence & Sources (Phase 2)
         # ---------------------------------------------------------------------
         with tab_sources:
             st.markdown("#### Grounded Citations & Sources")
@@ -500,11 +523,27 @@ if run_btn:
                 st.info("No external sources cited.")
             else:
                 for s in resp.sources_used:
+                    # Distinguish origin type (Phase 2.4)
+                    origin = s.origin_type
+                    if origin == "live_web":
+                        origin_badge = "<span class='origin-badge origin-live'>LIVE WEB</span>"
+                    elif origin == "curated_kb":
+                        origin_badge = "<span class='origin-badge origin-kb'>CURATED TECHNICAL KB</span>"
+                    elif origin == "scraped_page":
+                        origin_badge = "<span class='origin-badge origin-scraped'>SCRAPED PAGE</span>"
+                    else:
+                        origin_badge = "<span class='origin-badge origin-fallback'>FALLBACK INDEX</span>"
+
                     st.markdown(f"""
                     <div class="evidence-item">
                         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem;">
                             <span style="font-weight: 600; font-size: 0.925rem; color: #F8FAFC;">[{s.id}] {s.title}</span>
-                            <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #38BDF8;">{int(s.reliability_score * 100)}% RELIABILITY</span>
+                            <div>
+                                {origin_badge}
+                                <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #38BDF8; margin-left: 0.5rem;">
+                                    {int(s.reliability_score * 100)}% RELIABILITY &bull; {s.retrieval_status}
+                                </span>
+                            </div>
                         </div>
                         <div>
                             <a class="evidence-url" href="{s.url}" target="_blank">{s.url} &nearr;</a>
@@ -516,7 +555,7 @@ if run_btn:
                     """, unsafe_allow_html=True)
 
         # ---------------------------------------------------------------------
-        # Tab 3: Planning & Telemetry
+        # Tab 3: Planning & Telemetry (Phase 3 & 4)
         # ---------------------------------------------------------------------
         with tab_telemetry:
             st.markdown("#### Independent Judge Audit")
@@ -532,7 +571,7 @@ if run_btn:
                     st.markdown(f"- {item}")
 
             st.markdown("---")
-            st.markdown("#### Decomposed Plan")
+            st.markdown("#### Decomposed Plan (Backend PlanStep)")
             if trace.plan:
                 st.markdown(f"**Intent Analysis:** {trace.plan.intent_analysis}")
                 for s in trace.plan.decomposed_steps:
@@ -544,39 +583,55 @@ if run_btn:
                         </div>
                         <div style="font-size: 0.8rem; color: #94A3B8;">
                             <strong>Rationale:</strong> {s.rationale}<br/>
-                            <strong>Arguments:</strong> <code>{json.dumps(s.tool_input)}</code>
+                            <strong>Status:</strong> <code>{s.status}</code> | <strong>Arguments:</strong> <code>{json.dumps(s.tool_input)}</code>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-            st.markdown("##### Tool Execution Logs & Latencies")
+            st.markdown("---")
+            st.markdown("#### Tool Execution Telemetry (Phase 4)")
             tool_data = []
             for idx, te in enumerate(trace.tool_executions, 1):
+                status_str = "SUCCESS" if te.success else "FAILED"
+                if te.fallback_triggered:
+                    status_str = "FALLBACK"
+                
                 tool_data.append({
                     "Call": f"#{idx} ({te.tool_name})",
-                    "Status": "Success" if te.success else "Failed",
-                    "Latency (ms)": te.latency_ms,
-                    "Cached": te.cached,
-                    "Sanitized": te.sanitized
+                    "Status": status_str,
+                    "Duration (ms)": te.latency_ms,
+                    "Retries": te.retry_count,
+                    "Retrieved": te.retrieved_count,
+                    "Filtered (Noise)": te.filtered_count,
+                    "Origin": te.origin_type.upper(),
+                    "Cached": "Yes" if te.cached else "No",
+                    "Sanitized": "Yes" if te.sanitized else "No"
                 })
-                with st.expander(f"Call #{idx}: {te.tool_name} — {te.latency_ms} ms"):
+                with st.expander(f"Call #{idx}: {te.tool_name} — {te.latency_ms} ms [{status_str}]"):
                     st.json(te.model_dump())
 
             if tool_data:
                 df = pd.DataFrame(tool_data)
-                st.dataframe(df, use_container_width=True)
+                st.dataframe(df, use_container_width=True, hide_index=True)
 
         # ---------------------------------------------------------------------
-        # Tab 4: Baseline Comparison (Stretch Goal from PDF)
+        # Tab 4: Baseline Comparison (Phase 7)
         # ---------------------------------------------------------------------
         with tab_baseline:
             st.markdown("#### Agentic vs Non-Agentic Baseline Comparison")
-            st.caption("Demonstrating the empirical value of multi-step tool orchestration over a naive single-turn LLM generation.")
+            st.caption("Empirical demonstration of multi-step tool orchestration vs a blind single-turn generation.")
 
             col_b1, col_b2 = st.columns(2, gap="large")
 
+            # Execute Baseline in real-time
+            baseline_start = time.perf_counter()
+            baseline_tool = BaselineComparisonTool(llm=llm_instance)
+            base_res = baseline_tool.execute(query=user_inquiry)
+            baseline_duration_ms = round((time.perf_counter() - baseline_start) * 1000, 2)
+            naive_text = base_res.data.get("non_agentic_response", "")
+
             with col_b1:
-                st.markdown("##### 🤖 Production Research Agent")
+                st.markdown("##### 🤖 Production Research Agent (Orchestrated)")
                 st.markdown(f"""
                 <div class="panel-card" style="border-left: 3px solid #10B981;">
                     <div style="font-size: 0.75rem; font-weight: 700; color: #10B981; margin-bottom: 0.35rem;">VERIFIED & GROUNDED</div>
@@ -584,6 +639,7 @@ if run_btn:
                     <hr style="border-color: #1E2433; margin: 0.75rem 0;"/>
                     <div style="font-size: 0.75rem; color: #94A3B8;">
                         &bull; Tools Used: <strong>{len(trace.tool_executions)}</strong><br/>
+                        &bull; Measured Duration: <strong>{trace.duration_ms} ms</strong><br/>
                         &bull; Verified Sources Cited: <strong>{len(resp.sources_used)}</strong><br/>
                         &bull; Independent Grounding Audit: <strong>{grounding_score_val}%</strong><br/>
                         &bull; Hallucination Risk: <strong>Low</strong>
@@ -592,24 +648,23 @@ if run_btn:
                 """, unsafe_allow_html=True)
 
             with col_b2:
-                st.markdown("##### 🚫 Naive Non-Agentic Baseline")
-                baseline_tool = BaselineComparisonTool(llm=llm_instance)
-                base_res = baseline_tool.execute(query=user_inquiry)
-                naive_text = base_res.data.get("non_agentic_response", "")
-
+                st.markdown("##### 🚫 Naive Baseline (Zero-Shot Direct Prompt)")
                 st.markdown(f"""
                 <div class="panel-card" style="border-left: 3px solid #F43F5E;">
-                    <div style="font-size: 0.75rem; font-weight: 700; color: #F43F5E; margin-bottom: 0.35rem;">UNGROUNDED & ZERO-SHOT</div>
+                    <div style="font-size: 0.75rem; font-weight: 700; color: #F43F5E; margin-bottom: 0.35rem;">UNGROUNDED & DIRECT</div>
                     <p style="font-size: 0.875rem; line-height: 1.55; color: #94A3B8;">{naive_text}</p>
                     <hr style="border-color: #1E2433; margin: 0.75rem 0;"/>
                     <div style="font-size: 0.75rem; color: #94A3B8;">
                         &bull; Tools Used: <strong>0</strong> (Blind generation)<br/>
+                        &bull; Measured Duration: <strong>{baseline_duration_ms} ms</strong><br/>
                         &bull; Verified Sources Cited: <strong>0</strong> (No citations)<br/>
-                        &bull; Real-time Freshness: <strong>None</strong> (Static weights only)<br/>
+                        &bull; Real-time Freshness: <strong>None</strong> (Static model weights)<br/>
                         &bull; Hallucination Risk: <strong>High</strong>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+            st.caption("Note: The baseline is a single-turn prompt execution without tool retrieval. While it can produce coherent prose, it cannot cite verifiable links or detect 404/DNS failures.")
 
         # ---------------------------------------------------------------------
         # Tab 5: Raw Telemetry JSON
