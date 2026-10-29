@@ -179,6 +179,8 @@ python cli.py -q "Compare the top 3 open-source vector databases for a startup b
 ### 5. Launch Streamlit UI
 ```bash
 streamlit run app.py
+# Or on Windows if streamlit CLI is not directly on PATH:
+python -m streamlit run app.py
 ```
 
 ### 6. Run Automated Test Suite
@@ -195,8 +197,9 @@ python -m evals.run_eval
 
 ## 📊 Evaluation & Test Results
 
-- **Unit & Integration Tests**: 11 / 11 Passed (100%) in `2.70s`
-- **Benchmark Evaluation Suite**: 5 / 5 Passed (100%) in `0.88s`
+- **Unit & Integration Tests**: 12 / 12 Passed (100%) in `2.55s`
+- **Benchmark Evaluation Suite**: 5 / 5 Passed (100%) in `0.83s`
 - **Telemetry Reports**: Sample trace files available in `samples/` (`sample_1_vectordb.json`, `sample_2_hrtech_saas.json`, `sample_3_multiagent_support.json`).
 - Detailed evaluation breakdown is documented in [EVALUATION.md](EVALUATION.md).
+- Formal senior engineering evaluation audit is available in [AUDIT_REPORT.md](AUDIT_REPORT.md).
 
