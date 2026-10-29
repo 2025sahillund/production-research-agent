@@ -63,3 +63,4 @@ def test_plan_step_schema():
     )
     assert step.step_id == 1
     assert step.status == "pending"
+

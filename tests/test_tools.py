@@ -64,3 +64,4 @@ def test_fact_checker():
 
     invalid_res = fc.execute(claim="Milvus runs as a single binary without dependencies")
     assert invalid_res.data["verified"] is False
+

@@ -138,3 +138,4 @@ class TechKBTool(BaseTool):
             "message": f"Topic '{topic}' not found in internal technical KB. Recommended to fallback to web_search tool.",
             "available_topics": list(KNOWLEDGE_STORE.keys())
         }
+

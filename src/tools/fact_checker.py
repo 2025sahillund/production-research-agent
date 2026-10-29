@@ -42,3 +42,4 @@ class FactCheckerTool(BaseTool):
             "confidence": confidence,
             "verification_notes": notes
         }
+

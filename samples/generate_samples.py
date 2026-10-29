@@ -17,3 +17,4 @@ for q, path in queries:
     with open(path, "w", encoding="utf-8") as f:
         f.write(trace.model_dump_json(indent=2))
     print(f"Generated {path}")
+

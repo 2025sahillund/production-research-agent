@@ -74,3 +74,4 @@ class ResearchPlanner:
             information_needs=["Core architecture", "Key tradeoffs", "Practical recommendations"],
             risk_assessment="Planner LLM fallback activated due to parsing error."
         )
+

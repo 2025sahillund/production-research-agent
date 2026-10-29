@@ -189,3 +189,4 @@ if run_btn:
                 file_name=f"research_trace_{trace.trace_id}.json",
                 mime="application/json"
             )
+

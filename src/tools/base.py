@@ -4,7 +4,7 @@ Base Tool definition with built-in resilience:
 - Timeout & retry behavior (tenacity)
 - Caching layer
 - Malformed output protection
-- Prompt injection detection & sanitization
+- Multi-vector Prompt Injection detection & sanitization
 """
 
 import time
@@ -17,16 +17,20 @@ from src.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Pattern to detect common indirect prompt injection payloads in retrieved web text
+# Comprehensive pattern registry for detecting indirect prompt injections in retrieved web content
 INJECTION_PATTERNS = [
-    r"ignore\s+(all\s+)?(previous|prior)\s+instructions",
+    r"ignore\s+(all\s+)?(previous|prior|above)\s+instructions",
+    r"disregard\s+(all\s+)?(previous|prior|above)\s+(instructions|prompts|rules)",
     r"system\s*:\s*you\s+are\s+now",
-    r"disregard\s+the\s+above",
-    r"you\s+must\s+output\s+the\s+following",
     r"new\s+system\s+prompt\s*:",
+    r"you\s+are\s+now\s+in\s+(developer|unrestricted|god|dan)\s+mode",
+    r"you\s+must\s+(now\s+)?output\s+the\s+following",
+    r"print\s+(your\s+)?(system\s+prompt|initial\s+instructions)",
     r"<\|im_start\|>",
     r"<\|system\|>",
-    r"delete\s+all\s+files",
+    r"\[INST\]",
+    r"<<SYS>>",
+    r"delete\s+all\s+(files|data|records)",
 ]
 
 
@@ -67,7 +71,7 @@ class BaseTool(ABC):
         while retries <= settings.TOOL_MAX_RETRIES:
             try:
                 raw_data = self._run(**kwargs)
-                latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
+                latency_ms = round((time.perf_counter() - start_perf_time(start_time)) * 1000, 2)
                 
                 # Check and sanitize output for security
                 sanitized = False
@@ -76,7 +80,7 @@ class BaseTool(ABC):
                     cleaned_data, detected = self._sanitize_prompt_injection(raw_data)
                     if detected:
                         sanitized = True
-                        warning = "Warning: Potential prompt injection signature detected and neutralized."
+                        warning = "Security: Potential indirect prompt injection pattern detected and sanitized."
                         raw_data = cleaned_data
 
                 result = ToolResult(
@@ -145,3 +149,7 @@ class BaseTool(ABC):
             return cleaned_dict, detected
         
         return data, False
+
+
+def start_perf_time(start_time: float) -> float:
+    return start_time

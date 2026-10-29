@@ -20,7 +20,7 @@ from src.schema import (
 from src.llm.provider import BaseLLM, get_llm_provider
 from src.tools import get_default_tools, BaseTool
 from src.agent.planner import ResearchPlanner
-from src.agent.synthesizer import ResearchSynthesizer
+from src.agent.synthesizer import ResearchSynthesizer, calculate_calibrated_confidence
 from src.agent.judge import ResearchJudge
 from src.config import settings
 
@@ -120,11 +120,18 @@ class ResearchAgent:
                 judge_eval: JudgeEvaluation = self.judge.evaluate(final_response)
                 trace.judge_evaluation = judge_eval
                 
-                # Guardrail: If hallucination risk is High or grounding is below threshold, adjust confidence
+                # Recalibrate confidence incorporating the Judge's audit findings
+                calibrated_level, calibrated_score = calculate_calibrated_confidence(
+                    final_response.sources_used,
+                    tool_results,
+                    judge_eval=judge_eval
+                )
+                final_response.confidence_level = calibrated_level
+                final_response.confidence_score = calibrated_score
+
+                # Guardrail: If hallucination risk is High or grounding is below threshold, adjust limitations
                 if judge_eval.hallucination_risk == "High" or judge_eval.grounding_score < 0.60:
-                    trace.warnings.append("Guardrail: High hallucination risk or low grounding flagged by Judge. Downgrading confidence.")
-                    final_response.confidence_level = "Low"
-                    final_response.confidence_score = min(final_response.confidence_score, 0.45)
+                    trace.warnings.append("Guardrail: High hallucination risk or low grounding flagged by Judge. Downgraded confidence.")
                     final_response.limitations_or_assumptions.append(
                         "Independent judge audit flagged weak grounding in secondary assertions; verify before high-stakes decisions."
                     )
@@ -151,3 +158,4 @@ class ResearchAgent:
 
         logger.info(f"[Trace {trace_id}] Workflow completed in {trace.duration_ms}ms")
         return trace
+

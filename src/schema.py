@@ -104,3 +104,4 @@ class ExecutionTrace(BaseModel):
     judge_evaluation: Optional[JudgeEvaluation] = None
     warnings: List[str] = Field(default_factory=list)
     errors: List[str] = Field(default_factory=list)
+

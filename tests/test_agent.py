@@ -40,3 +40,34 @@ def test_agent_graceful_handling_on_adversarial_input():
     # Should not crash, should produce valid response
     assert trace.final_response is not None
     assert trace.final_response.confidence_level in ["High", "Medium", "Low"]
+
+
+def test_calibrated_confidence_calculation():
+    from src.agent.synthesizer import calculate_calibrated_confidence
+    from src.schema import SourceReference, ToolResult, JudgeEvaluation
+
+    # Case 1: Zero sources should yield Low confidence
+    level_empty, score_empty = calculate_calibrated_confidence([], [])
+    assert level_empty == "Low"
+    assert score_empty <= 0.45
+
+    # Case 2: 3 authoritative sources + successful tools + high judge grounding -> High confidence
+    sources = [
+        SourceReference(id=1, title="S1", url="https://s1.io", snippet="t1", reliability_score=0.95),
+        SourceReference(id=2, title="S2", url="https://s2.io", snippet="t2", reliability_score=0.90),
+        SourceReference(id=3, title="S3", url="https://s3.io", snippet="t3", reliability_score=0.92),
+    ]
+    tools = [
+        ToolResult(tool_name="t1", query="q1", success=True),
+        ToolResult(tool_name="t2", query="q2", success=True)
+    ]
+    judge = JudgeEvaluation(
+        is_grounded=True,
+        grounding_score=0.95,
+        hallucination_risk="Low",
+        completeness_score=0.95
+    )
+    level_high, score_high = calculate_calibrated_confidence(sources, tools, judge)
+    assert level_high == "High"
+    assert score_high >= 0.85
+

@@ -199,3 +199,4 @@ python -m evals.run_eval
 - **Benchmark Evaluation Suite**: 5 / 5 Passed (100%) in `0.88s`
 - **Telemetry Reports**: Sample trace files available in `samples/` (`sample_1_vectordb.json`, `sample_2_hrtech_saas.json`, `sample_3_multiagent_support.json`).
 - Detailed evaluation breakdown is documented in [EVALUATION.md](EVALUATION.md).
+

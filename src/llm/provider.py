@@ -396,3 +396,4 @@ def get_llm_provider() -> BaseLLM:
     else:
         logger.info("No external LLM API key detected. Operating in high-fidelity deterministic engine mode.")
         return MockResearchLLM()
+

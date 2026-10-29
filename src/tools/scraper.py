@@ -97,3 +97,4 @@ class ContentFetcherTool(BaseTool):
             "truncated": truncated,
             "content": clean_text
         }
+

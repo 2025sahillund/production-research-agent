@@ -1,8 +1,10 @@
 """
-Web Search Tool with live querying, resilience fallbacks, and noise filtering.
+Web Search Tool with genuine live web querying, resilience fallbacks, and noise filtering.
 """
 
 import httpx
+from bs4 import BeautifulSoup
+import urllib.parse
 import logging
 from typing import Any, Dict, List
 from src.tools.base import BaseTool
@@ -67,45 +69,71 @@ class WebSearchTool(BaseTool):
     name = "web_search"
     description = "Searches the web for relevant technical articles, documentation, and market data."
 
+    def _query_live_ddg_html(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+        """Scrapes DuckDuckGo HTML endpoint for genuine live search results."""
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        }
+        with httpx.Client(timeout=settings.TOOL_TIMEOUT_SECONDS, follow_redirects=True) as client:
+            resp = client.post(
+                "https://html.duckduckgo.com/html/",
+                data={"q": query},
+                headers=headers
+            )
+            if resp.status_code != 200:
+                return []
+
+            soup = BeautifulSoup(resp.text, "html.parser")
+            results = []
+            for body in soup.find_all("div", class_="result__body"):
+                title_tag = body.find("a", class_="result__a")
+                snippet_tag = body.find("a", class_="result__snippet")
+                url_tag = body.find("a", class_="result__url")
+                
+                if not title_tag:
+                    continue
+
+                raw_url = url_tag.get("href", "").strip() if url_tag else ""
+                if "uddg=" in raw_url:
+                    parsed = urllib.parse.parse_qs(urllib.parse.urlparse(raw_url).query)
+                    clean_url = parsed.get("uddg", [raw_url])[0]
+                else:
+                    clean_url = raw_url
+                    if clean_url and not clean_url.startswith("http"):
+                        clean_url = "https://" + clean_url
+
+                title = title_tag.get_text(strip=True)
+                snippet = snippet_tag.get_text(strip=True) if snippet_tag else ""
+
+                if title and snippet:
+                    results.append({
+                        "title": title,
+                        "url": clean_url,
+                        "snippet": snippet,
+                        "relevance": 0.88
+                    })
+
+                if len(results) >= max_results:
+                    break
+
+            return results
+
     def _run(self, query: str, max_results: int = 5, **kwargs) -> Dict[str, Any]:
         """
-        Executes web search with live lookup and automated offline fallback.
+        Executes web search with genuine live lookup and automated offline fallback.
         Filters out low-relevance sources automatically.
         """
         results: List[Dict[str, Any]] = []
-        source_mode = "live"
+        source_mode = "live_web"
 
-        # Attempt live DuckDuckGo API lookup
+        # 1. Attempt genuine live DuckDuckGo HTML search
         try:
-            with httpx.Client(timeout=settings.TOOL_TIMEOUT_SECONDS) as client:
-                resp = client.get(
-                    "https://api.duckduckgo.com/",
-                    params={"q": query, "format": "json", "no_html": "1", "skip_disambig": "1"},
-                    headers={"User-Agent": "ResearchAgent/1.0"}
-                )
-                if resp.status_code == 200:
-                    data = resp.json()
-                    abstract = data.get("AbstractText")
-                    if abstract:
-                        results.append({
-                            "title": data.get("Heading") or query,
-                            "url": data.get("AbstractURL") or "https://duckduckgo.com",
-                            "snippet": abstract,
-                            "relevance": 0.85
-                        })
-                    for topic in data.get("RelatedTopics", [])[:max_results]:
-                        if isinstance(topic, dict) and "Text" in topic:
-                            results.append({
-                                "title": topic.get("Text")[:60] + "...",
-                                "url": topic.get("FirstURL", "https://duckduckgo.com"),
-                                "snippet": topic.get("Text"),
-                                "relevance": 0.80
-                            })
+            results = self._query_live_ddg_html(query, max_results=max_results)
         except Exception as e:
-            logger.info(f"Live search failed ({e}). Seamlessly engaging fallback search index.")
-            source_mode = "fallback_index"
+            logger.info(f"Live DDG HTML search failed or timed out ({e}).")
 
-        # If live search yielded nothing or timed out, use fallback curated index
+        # 2. If live search returned zero results (e.g. rate limit / network drop), engage fallback index
         if not results:
             source_mode = "fallback_index"
             q_lower = query.lower()
@@ -118,7 +146,6 @@ class WebSearchTool(BaseTool):
             if matched_key:
                 results = list(FALLBACK_WEB_RESULTS[matched_key])
             else:
-                # Default generic fallback
                 results = [
                     {
                         "title": f"Technical Research Results for: {query[:40]}",
@@ -128,7 +155,7 @@ class WebSearchTool(BaseTool):
                     }
                 ]
 
-        # Filter out noisy or low-relevance results (Engineering Requirement)
+        # 3. Filter out noisy or low-relevance results (Engineering Requirement)
         filtered_results = [
             r for r in results 
             if r.get("relevance", 0.0) >= settings.MIN_SOURCE_RELEVANCE_SCORE
