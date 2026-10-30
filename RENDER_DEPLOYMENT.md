@@ -66,3 +66,4 @@ If you prefer to configure the service manually on Render:
   ```
 - Open the assigned `.onrender.com` URL in your browser.
 - Run one of the preset benchmark queries (e.g. *Vector DB Comparison*) to verify end-to-end execution on the live cloud server.
+
