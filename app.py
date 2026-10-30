@@ -20,7 +20,6 @@ from src.config import settings
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Production AI Research Agent | Evidence Workspace",
-    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -40,12 +39,13 @@ st.markdown("""
     }
 
     [data-testid="stHeader"] {
-        background-color: #0B0B0D !important;
+        background-color: transparent !important;
+        height: 2rem !important;
     }
 
     .block-container {
-        padding-top: 1.5rem;
-        padding-bottom: 4rem;
+        padding-top: 4.5rem !important;
+        padding-bottom: 4rem !important;
         max-width: 1240px;
     }
 
@@ -57,6 +57,7 @@ st.markdown("""
         padding-bottom: 1.25rem;
         border-bottom: 1px solid #39342C;
         margin-bottom: 1.5rem;
+        margin-top: 0.5rem;
     }
 
     .brand-title {
@@ -370,7 +371,7 @@ st.markdown("""
 <div class="top-nav">
     <div>
         <div class="brand-title">
-            <span>⚡ Production Research Agent</span>
+            <span>Production Research Agent</span>
         </div>
         <div style="font-size: 0.8rem; color: #A6A19A; margin-top: 0.2rem;">
             Evidence-grounded research with transparent tool execution
@@ -745,7 +746,7 @@ if run_btn:
             naive_text = base_res.data.get("non_agentic_response", "") if hasattr(base_res, "data") and isinstance(base_res.data, dict) else ""
 
             with col_b1:
-                st.markdown("##### 🤖 Production Research Agent (Orchestrated)")
+                st.markdown("##### Production Research Agent (Orchestrated)")
                 tool_exec_count = len(getattr(trace, "tool_executions", []))
                 sources_count = len(getattr(resp, "sources_used", [])) if resp else 0
                 trace_dur = getattr(trace, "duration_ms", 0.0)
@@ -756,7 +757,6 @@ if run_btn:
                     <hr style="border-color: #39342C; margin: 0.75rem 0;"/>
                     <div style="font-size: 0.75rem; color: #A6A19A;">
                         &bull; Tools Used: <strong>{tool_exec_count}</strong><br/>
-                        &bull; Measured Duration: <strong>{trace.duration_ms} ms</strong><br/>
                         &bull; Measured Duration: <strong>{trace_dur} ms</strong><br/>
                         &bull; Verified Sources Cited: <strong>{sources_count}</strong><br/>
                         &bull; Independent Grounding Audit: <strong>{grounding_score_val}%</strong><br/>
@@ -766,7 +766,7 @@ if run_btn:
                 """, unsafe_allow_html=True)
 
             with col_b2:
-                st.markdown("##### 🚫 Naive Baseline (Zero-Shot Direct Prompt)")
+                st.markdown("##### Naive Baseline (Zero-Shot Direct Prompt)")
                 st.markdown(f"""
                 <div class="panel-card" style="border-left: 3px solid #9F8150;">
                     <div style="font-size: 0.75rem; font-weight: 700; color: #9F8150; margin-bottom: 0.35rem;">UNGROUNDED & DIRECT</div>
@@ -792,7 +792,7 @@ if run_btn:
             trace_id_val = getattr(trace, "trace_id", "session")
             trace_dump_data = trace.model_dump_json(indent=2) if hasattr(trace, "model_dump_json") else json.dumps(str(trace), indent=2)
             st.download_button(
-                label="📥 Download Trace JSON",
+                label="Download Trace JSON",
                 data=trace_dump_data,
                 file_name=f"trace_{trace_id_val}.json",
                 mime="application/json"
