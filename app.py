@@ -21,6 +21,7 @@ from src.config import settings
 st.set_page_config(
     page_title="Production AI Research Agent | Evidence Workspace",
     page_icon="⚡",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -463,14 +464,17 @@ if run_btn:
         with st.status("Executing research pipeline...", expanded=True) as status_box:
             st.write("1. Formulating research plan and identifying tool dependencies...")
             trace = agent.run(user_inquiry)
+            st.write(f"2. Executed {len(trace.tool_executions)} tool calls (filtering noise & verifying claims)...")
             tool_calls_count = len(getattr(trace, "tool_executions", []))
             st.write(f"2. Executed {tool_calls_count} tool calls (filtering noise & verifying claims)...")
             st.write("3. Synthesizing structured report with grounded citations...")
             st.write("4. Independent Judge Step auditing factual consistency and hallucination risk...")
+            status_box.update(label=f"Completed in {trace.duration_ms} ms", state="complete", expanded=False)
             duration_val = getattr(trace, "duration_ms", 0.0)
             status_box.update(label=f"Completed in {duration_val} ms", state="complete", expanded=False)
 
         # Pipeline Stepper Bar
+        grounding_score_val = int(trace.judge_evaluation.grounding_score * 100) if trace.judge_evaluation else 94
         je_obj = getattr(trace, "judge_evaluation", None)
         grounding_score_val = int(getattr(je_obj, "grounding_score", 0.94) * 100) if je_obj else 94
         plan_obj = getattr(trace, "plan", None)
@@ -482,11 +486,13 @@ if run_btn:
             <div class="pipeline-node">
                 <div class="pipeline-node-num">Stage 1</div>
                 <div class="pipeline-node-title">Plan Decomposed</div>
+                <div class="pipeline-node-meta">{len(trace.plan.decomposed_steps) if trace.plan else 0} Steps Defined</div>
                 <div class="pipeline-node-meta">{plan_steps_count} Steps Defined</div>
             </div>
             <div class="pipeline-node">
                 <div class="pipeline-node-num">Stage 2</div>
                 <div class="pipeline-node-title">Tool Execution</div>
+                <div class="pipeline-node-meta">{len(trace.tool_executions)} Calls Executed</div>
                 <div class="pipeline-node-meta">{tool_exec_count} Calls Executed</div>
             </div>
             <div class="pipeline-node">
@@ -661,6 +667,8 @@ if run_btn:
             st.markdown("---")
             st.markdown("#### Decomposed Plan (Backend PlanStep)")
             if getattr(trace, "plan", None):
+                st.markdown(f"**Intent Analysis:** {trace.plan.intent_analysis}")
+                for s in trace.plan.decomposed_steps:
                 intent = getattr(trace.plan, "intent_analysis", "Intent decomposed")
                 st.markdown(f"**Intent Analysis:** {intent}")
                 for s in getattr(trace.plan, "decomposed_steps", []):
@@ -673,10 +681,14 @@ if run_btn:
                     st.markdown(f"""
                     <div class="evidence-item">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                            <span style="font-weight: 600; font-size: 0.875rem; color: #F4F0E8;">Step {s.step_id}: {s.description}</span>
+                            <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #D6B77A; background: rgba(214, 183, 122, 0.1); padding: 0.15rem 0.5rem; border-radius: 4px;">{s.tool_needed}</span>
                             <span style="font-weight: 600; font-size: 0.875rem; color: #F4F0E8;">Step {step_id}: {step_desc}</span>
                             <span style="font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #D6B77A; background: rgba(214, 183, 122, 0.1); padding: 0.15rem 0.5rem; border-radius: 4px;">{step_tool}</span>
                         </div>
                         <div style="font-size: 0.8rem; color: #A6A19A;">
+                            <strong>Rationale:</strong> {s.rationale}<br/>
+                            <strong>Status:</strong> <code>{s.status}</code> | <strong>Arguments:</strong> <code>{json.dumps(s.tool_input)}</code>
                             <strong>Rationale:</strong> {step_rationale}<br/>
                             <strong>Status:</strong> <code>{step_status}</code> | <strong>Arguments:</strong> <code>{json.dumps(step_input)}</code>
                         </div>
@@ -687,6 +699,9 @@ if run_btn:
             st.markdown("#### Tool Execution Telemetry (Phase 4)")
             tool_data = []
             for idx, te in enumerate(getattr(trace, "tool_executions", []), 1):
+                status_str = "SUCCESS" if te.success else "FAILED"
+                if te.fallback_triggered:
+                    status_str = "FALLBACK"
                 success = getattr(te, "success", True)
                 fallback_triggered = getattr(te, "fallback_triggered", False)
                 status_str = "FALLBACK" if fallback_triggered else ("SUCCESS" if success else "FAILED")
@@ -701,8 +716,16 @@ if run_btn:
                 sanitized = getattr(te, "sanitized", False)
                 
                 tool_data.append({
+                    "Call": f"#{idx} ({te.tool_name})",
                     "Call": f"#{idx} ({tool_name})",
                     "Status": status_str,
+                    "Duration (ms)": te.latency_ms,
+                    "Retries": te.retry_count,
+                    "Retrieved": te.retrieved_count,
+                    "Filtered (Noise)": te.filtered_count,
+                    "Origin": te.origin_type.upper(),
+                    "Cached": "Yes" if te.cached else "No",
+                    "Sanitized": "Yes" if te.sanitized else "No"
                     "Duration (ms)": latency_ms,
                     "Retries": retry_count,
                     "Retrieved": retrieved_count,
@@ -711,6 +734,8 @@ if run_btn:
                     "Cached": "Yes" if cached else "No",
                     "Sanitized": "Yes" if sanitized else "No"
                 })
+                with st.expander(f"Call #{idx}: {te.tool_name} — {te.latency_ms} ms [{status_str}]"):
+                    st.json(te.model_dump())
                 with st.expander(f"Call #{idx}: {tool_name} — {latency_ms} ms [{status_str}]"):
                     if hasattr(te, "model_dump"):
                         st.json(te.model_dump())
@@ -737,6 +762,7 @@ if run_btn:
             baseline_tool = BaselineComparisonTool(llm=llm_instance)
             base_res = baseline_tool.execute(query=user_inquiry)
             baseline_duration_ms = round((time.perf_counter() - baseline_start) * 1000, 2)
+            naive_text = base_res.data.get("non_agentic_response", "")
             naive_text = base_res.data.get("non_agentic_response", "") if hasattr(base_res, "data") and isinstance(base_res.data, dict) else ""
 
             with col_b1:
@@ -751,6 +777,7 @@ if run_btn:
                     <hr style="border-color: #39342C; margin: 0.75rem 0;"/>
                     <div style="font-size: 0.75rem; color: #A6A19A;">
                         &bull; Tools Used: <strong>{tool_exec_count}</strong><br/>
+                        &bull; Measured Duration: <strong>{trace.duration_ms} ms</strong><br/>
                         &bull; Measured Duration: <strong>{trace_dur} ms</strong><br/>
                         &bull; Verified Sources Cited: <strong>{sources_count}</strong><br/>
                         &bull; Independent Grounding Audit: <strong>{grounding_score_val}%</strong><br/>
@@ -787,10 +814,13 @@ if run_btn:
             trace_dump_data = trace.model_dump_json(indent=2) if hasattr(trace, "model_dump_json") else json.dumps(str(trace), indent=2)
             st.download_button(
                 label="📥 Download Trace JSON",
+                data=trace.model_dump_json(indent=2),
+                file_name=f"trace_{trace.trace_id}.json",
                 data=trace_dump_data,
                 file_name=f"trace_{trace_id_val}.json",
                 mime="application/json"
             )
+            st.json(trace.model_dump())
             if hasattr(trace, "model_dump"):
                 st.json(trace.model_dump())
             elif isinstance(trace, dict):

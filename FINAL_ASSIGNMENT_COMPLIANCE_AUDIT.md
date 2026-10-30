@@ -40,7 +40,7 @@ The only remaining prerequisites before submission are **manual user deliverable
 | **REQ-14** | **Optional stretch: Independent judge step** | `src/agent/judge.py` evaluates grounding score, hallucination risk, and completeness; downgrades confidence and appends limitations if grounding is poor. | Tested in `src/agent/orchestrator.py` lines 118-138; verified in all 5 benchmark runs. | **PASS** | None. |
 | **REQ-15** | **Optional stretch: Non-agentic baseline** | `src/tools/baseline.py` executes single-turn direct generation; compared side-by-side against orchestrated output in `app.py` Tab 4. | Tested in `tests/test_schemas.py::test_non_comparative_question_pipeline` and UI Tab 4. | **PASS** | None. |
 | **REQ-16** | **Optional stretch: Tool caching** | `src/tools/base.py` caches tool results by query hash; returns sub-millisecond responses on repeated queries. | Tested in `tests/test_tools.py::test_caching_behavior` (< 1ms execution). | **PASS** | None. |
-| **REQ-17** | **Deliverable: Source code repository** | Clean Git repository initialized with full commit history, structured modules (`src/`, `tests/`, `evals/`, `samples/`). | Git status clean, 10+ granular commits. Remote is currently empty. | **PARTIAL** | **Action**: User must create GitHub/GitLab repo and push. |
+| **REQ-17** | **Deliverable: Source code repository** | Clean Git repository published publicly on GitHub with full commit history, structured modules (`src/`, `tests/`, `evals/`, `samples/`). | Repository live at `https://github.com/2025sahillund/production-research-agent`. | **PASS** | None. |
 | **REQ-18** | **Deliverable: Evaluation document** | `EVALUATION.md` documents methodology, 5 test queries, quantitative table, qualitative analysis of what worked, and initial failure modes. | Inspected `EVALUATION.md`. Matches benchmark runner outputs. | **PASS** | None. |
 | **REQ-19** | **Deliverable: 2-3 sample outputs** | 3 sample traces generated in `samples/`: `sample_1_vectordb.json`, `sample_2_hrtech_saas.json`, `sample_3_multiagent_support.json`. | Verified with `python samples/generate_samples.py`. | **PASS** | None. |
 | **REQ-20** | **Deliverable: 3-5 minute demo video** | Required by PDF page 5: "A short demo video, 3 to 5 minutes, showing one happy path and one failure or edge case". | No video file exists in workspace. | **FAIL (PENDING USER)** | **Action**: User must record the video before submission. |
@@ -187,3 +187,4 @@ python cli.py -q "Compare the top 3 open-source vector databases for a startup b
 # 6. Launch Streamlit UI
 streamlit run app.py
 ```
+

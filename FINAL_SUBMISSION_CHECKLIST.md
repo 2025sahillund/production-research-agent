@@ -10,7 +10,7 @@
 
 | Item | Required by PDF? | Status | Evidence or Path | My Action |
 |:---|:---|:---|:---|:---|
-| **1. Source Code Repository** | **Yes** (Page 4, Item 1) | **Completed Locally** | `C:\Users\Sahil\.gemini\antigravity\scratch\production-research-agent` (16 tests passing, clean git working tree) | **Manual Action**: Create a public GitHub/GitLab repository, link it (`git remote add origin <URL>`), and push (`git push -u origin master`). Verify repository visibility. |
+| **1. Source Code Repository** | **Yes** (Page 4, Item 1) | **Completed & Live** | [https://github.com/2025sahillund/production-research-agent](https://github.com/2025sahillund/production-research-agent) | Repository is public and pushed. |
 | **2. Architecture & Setup README** | **Yes** (Page 4, Item 2) | **Completed & Verified** | [`README.md`](README.md) (Fully answers all 7 questions from PDF: agentic choice, tools, failure handling, hallucinations, production readiness, monitoring, tradeoffs) | None. File is verified and complete. |
 | **3. 3–5 Minute Demo Video** | **Yes** (Page 5, Item 3) | **Requires Manual Action** | Must show: (1) Happy path (e.g. Vector DB Comparison), (2) Failure/edge case (e.g. 404 URL recovery or Prompt Injection defense) | **Manual Action**: Record a short 3–5 minute screen recording (using OBS, Loom, or Windows Game Bar `Win+G`). Upload to YouTube (Unlisted), Loom, or Google Drive (public link). |
 | **4. Brief Evaluation Document** | **Yes** (Page 5, Item 4) | **Completed & Verified** | [`EVALUATION.md`](EVALUATION.md) (Documents 5 test queries, expected behavior, what worked, and initial failure mode resolutions) | None. Benchmark outputs documented in detail. |
@@ -80,3 +80,4 @@ Summary of Implementation:
 Thank you,
 Sahil Lund
 ```
+
