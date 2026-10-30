@@ -19,7 +19,7 @@ from src.config import settings
 # Page Configuration
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="AI Research Agent | Evidence Workspace",
+    page_title="Production AI Research Agent | Evidence Workspace",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -368,8 +368,13 @@ PRESET_BENCHMARKS = {
 # -----------------------------------------------------------------------------
 st.markdown("""
 <div class="top-nav">
-    <div class="brand-title">
-        <span>⚡ AI Research Agent</span>
+    <div>
+        <div class="brand-title">
+            <span>⚡ Production Research Agent</span>
+        </div>
+        <div style="font-size: 0.8rem; color: #A6A19A; margin-top: 0.2rem;">
+            Evidence-grounded research with transparent tool execution
+        </div>
     </div>
     <div class="status-badge">
         <span class="status-dot"></span>

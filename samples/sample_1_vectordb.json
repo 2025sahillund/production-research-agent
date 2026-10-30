@@ -1,9 +1,9 @@
 {
-  "trace_id": "820db448",
+  "trace_id": "bac1608b",
   "user_query": "Compare the top 3 open-source vector databases for a startup building RAG products.",
-  "start_time": "2026-10-29T21:20:39.044668",
-  "end_time": "2026-10-29T21:20:39.350109",
-  "duration_ms": 305.43,
+  "start_time": "2026-10-30T10:08:02.543343",
+  "end_time": "2026-10-30T10:08:03.490686",
+  "duration_ms": 947.33,
   "plan": {
     "user_query": "User Research Query: \"Compare the top 3 open-source vector databases for a startup building RAG products.\"\n\nAnalyze the intent and create an optimized, step-by-step research plan. Select the most appropriate tool for each step.",
     "intent_analysis": "Comparative analysis of open-source vector databases tailored for startup RAG architecture.",
@@ -79,35 +79,53 @@
       "status_code": 200,
       "data": {
         "query": "top open source vector databases RAG startup qdrant chroma milvus",
-        "mode": "fallback_index",
-        "total_retrieved": 3,
-        "relevance_filtered_count": 2,
-        "discarded_noise_count": 1,
+        "mode": "live_web",
+        "total_retrieved": 5,
+        "relevance_filtered_count": 5,
+        "discarded_noise_count": 0,
         "results": [
           {
-            "title": "Qdrant vs Chroma vs Milvus - 2026 Developer Benchmark",
-            "url": "https://vector-radar.io/benchmarks/2026/top-vector-dbs",
-            "snippet": "Rust-powered Qdrant delivers 4x higher throughput on filtered vector search compared to Python-based engines. Chroma remains favorite for local prototypes.",
-            "relevance": 0.95
+            "title": "9 Best Open Source Vector Databases in 2026 (Tested) - Geekflare",
+            "url": "https://geekflare.com/open-source/vector-database/",
+            "snippet": "We compared 31opensourcevectordatabasesand extensions on licence, hybrid search, quantization, scaling and access control, ranked the best 9, and loaded the same 100,000 OpenAI embeddings intoQdrant,Milvus, Weaviate,Chromaand pgvector.",
+            "relevance": 0.88
           },
           {
-            "title": "Choosing the Best Vector Database for RAG in 2025/2026",
-            "url": "https://rag-architects.dev/vector-stores-startup-guide",
-            "snippet": "Startups should evaluate operational complexity. Milvus requires dedicated Kubernetes orchestration. Qdrant runs as a single docker container with built-in hybrid search.",
-            "relevance": 0.92
+            "title": "Open source vector databases: Qdrant vs Milvus vs Weaviate",
+            "url": "https://botmonster.com/ai/open-source-vector-databases-qdrant-milvus-weaviate/",
+            "snippet": "CompareQdrant,Milvus2.5, Weaviate,Chroma, pgvector, and LanceDB for 2026RAG: hybrid search, latency, quantization, GPU support, and cost.",
+            "relevance": 0.88
+          },
+          {
+            "title": "Vector Database Complete Comparison - Chroma, Milvus, Pinecone, Qdrant ...",
+            "url": "https://www.data-dynamics.io/en/blog/vector-database-comparison",
+            "snippet": "VectorDatabaseComplete Comparison -Chroma,Milvus, Pinecone,Qdrant, Weaviate, pgvector A comprehensive comparison of majorvectordatabasescovering architecture, installation, performance, indexing, hybrid search, scalability, and selection guide forRAGand AI applications.",
+            "relevance": 0.88
+          },
+          {
+            "title": "Comparing the best open source vector databases (2026) - Redis",
+            "url": "https://redis.io/blog/best-open-source-vector-databases-comparison/",
+            "snippet": "See howMilvus, Weaviate,Qdrant,Chroma, pgvector, and Faiss compare on indexing, hybrid search, and licensing, and where a unified platform like Redis fits.",
+            "relevance": 0.88
+          },
+          {
+            "title": "Top 10 Vector Databases in 2026 (Ranked by Use Case)",
+            "url": "https://hussain-nazary.github.io/top-10-vector-databases-2026.html",
+            "snippet": "Top10vectordatabasesin 2026: ChromaDB, FAISS,Qdrant, pgvector, Weaviate,Milvus, Pinecone, LanceDB, Elasticsearch, Redis — ranked by scale and use case.",
+            "relevance": 0.88
           }
         ]
       },
       "error": null,
-      "latency_ms": 304.46,
+      "latency_ms": 943.67,
       "cached": false,
       "sanitized": false,
       "warning": null,
-      "retrieved_count": 3,
-      "filtered_count": 1,
-      "origin_type": "fallback_index",
+      "retrieved_count": 5,
+      "filtered_count": 0,
+      "origin_type": "live_web",
       "retry_count": 0,
-      "fallback_triggered": true
+      "fallback_triggered": false
     },
     {
       "tool_name": "fact_checker",
@@ -156,27 +174,37 @@
       },
       {
         "id": 2,
-        "title": "Qdrant vs Chroma vs Milvus - 2026 Developer Benchmark",
-        "url": "https://vector-radar.io/benchmarks/2026/top-vector-dbs",
-        "snippet": "Rust-powered Qdrant delivers 4x higher throughput on filtered vector search compared to Python-based engines. Chroma remains favorite for local prototypes.",
-        "reliability_score": 0.95,
-        "domain": "vector-radar.io",
-        "origin_type": "fallback_index",
-        "retrieval_status": "Cached Fallback"
+        "title": "9 Best Open Source Vector Databases in 2026 (Tested) - Geekflare",
+        "url": "https://geekflare.com/open-source/vector-database/",
+        "snippet": "We compared 31opensourcevectordatabasesand extensions on licence, hybrid search, quantization, scaling and access control, ranked the best 9, and loaded the same 100,000 OpenAI embeddings intoQdrant,Milvus, Weaviate,Chromaand pgvector.",
+        "reliability_score": 0.88,
+        "domain": "geekflare.com",
+        "origin_type": "live_web",
+        "retrieval_status": "200 Live Web"
       },
       {
         "id": 3,
-        "title": "Choosing the Best Vector Database for RAG in 2025/2026",
-        "url": "https://rag-architects.dev/vector-stores-startup-guide",
-        "snippet": "Startups should evaluate operational complexity. Milvus requires dedicated Kubernetes orchestration. Qdrant runs as a single docker container with built-in hybrid search.",
-        "reliability_score": 0.92,
-        "domain": "rag-architects.dev",
-        "origin_type": "fallback_index",
-        "retrieval_status": "Cached Fallback"
+        "title": "Open source vector databases: Qdrant vs Milvus vs Weaviate",
+        "url": "https://botmonster.com/ai/open-source-vector-databases-qdrant-milvus-weaviate/",
+        "snippet": "CompareQdrant,Milvus2.5, Weaviate,Chroma, pgvector, and LanceDB for 2026RAG: hybrid search, latency, quantization, GPU support, and cost.",
+        "reliability_score": 0.88,
+        "domain": "botmonster.com",
+        "origin_type": "live_web",
+        "retrieval_status": "200 Live Web"
+      },
+      {
+        "id": 4,
+        "title": "Vector Database Complete Comparison - Chroma, Milvus, Pinecone, Qdrant ...",
+        "url": "https://www.data-dynamics.io/en/blog/vector-database-comparison",
+        "snippet": "VectorDatabaseComplete Comparison -Chroma,Milvus, Pinecone,Qdrant, Weaviate, pgvector A comprehensive comparison of majorvectordatabasescovering architecture, installation, performance, indexing, hybrid search, scalability, and selection guide forRAG",
+        "reliability_score": 0.88,
+        "domain": "www.data-dynamics.io",
+        "origin_type": "live_web",
+        "retrieval_status": "200 Live Web"
       }
     ],
     "confidence_level": "High",
-    "confidence_score": 0.97,
+    "confidence_score": 0.96,
     "limitations_or_assumptions": [
       "Assumes the startup team has a small DevOps footprint (<2 dedicated infrastructure engineers).",
       "Vector dataset size is assumed to be under 10 million vectors initially.",
@@ -212,13 +240,13 @@
     ],
     "confidence_breakdown": {
       "source_availability": 1.0,
-      "average_reliability": 0.94,
+      "average_reliability": 0.9,
       "tool_success_ratio": 1.0,
       "judge_grounding": 0.94
     },
     "execution_metadata": {
-      "trace_id": "820db448",
-      "duration_ms": 305.38,
+      "trace_id": "bac1608b",
+      "duration_ms": 947.28,
       "tool_calls_count": 3,
       "successful_tool_calls": 3,
       "llm_provider": "MockResearchLLM"

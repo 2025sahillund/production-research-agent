@@ -1,9 +1,9 @@
 {
-  "trace_id": "6b93ce18",
+  "trace_id": "61c4cd36",
   "user_query": "Find 5 Indian B2B SaaS startups in HR tech and summarize their positioning.",
-  "start_time": "2026-10-29T21:20:39.350937",
-  "end_time": "2026-10-29T21:20:39.599357",
-  "duration_ms": 248.41,
+  "start_time": "2026-10-30T10:08:03.491757",
+  "end_time": "2026-10-30T10:08:04.386528",
+  "duration_ms": 894.77,
   "plan": {
     "user_query": "User Research Query: \"Find 5 Indian B2B SaaS startups in HR tech and summarize their positioning.\"\n\nAnalyze the intent and create an optimized, step-by-step research plan. Select the most appropriate tool for each step.",
     "intent_analysis": "Market research and positioning synthesis of Indian B2B HR Tech SaaS companies.",
@@ -52,7 +52,7 @@
         "content": "Analysis of 5 key Indian B2B SaaS Startups in HR Tech and their strategic positioning:\n\n1. Darwinbox:\n- Market Positioning: Enterprise Human Capital Management (HCM) platform tailored for Asian and MENA multinational corporations.\n- Target Segment: Large enterprises (5,000+ employees); direct challenger to SAP SuccessFactors, Oracle, and Workday.\n- Key Strengths: Localized Asian compliance, mobile-first design, global talent management, and employee lifecycle workflows.\n\n2. Keka HR:\n- Market Positioning: Employee-centric HRMS focused on modern tech workplaces and mid-market transparency.\n- Target Segment: Mid-market companies (50 to 2,000 employees), particularly IT/ITeS and high-growth tech startups.\n- Key Strengths: Intuitive UI/UX, integrated payroll automation, performance appraisal cycles, and applicant tracking.\n\n3. greytHR (Greytip Software):\n- Market Positioning: Core payroll, statutory compliance, and attendance automation for Indian SMBs.\n- Target Segment: Small and medium businesses (10 to 500 employees) needing 100% statutory legal compliance.\n- Key Strengths: Unrivaled Indian statutory tax/PF/ESI rule coverage, high affordability, and deep accountant network adoption.\n\n4. ZingHR:\n- Market Positioning: Mobile-first enterprise HCM with 'Outcomes-to-HR' focus, incorporating ESG and employee fintech.\n- Target Segment: Medium to large enterprises in BFSI, retail, manufacturing, and distributed frontline workforces.\n- Key Strengths: High-speed mobile check-ins, automated micro-learning, earned wage access, and shift management.\n\n5. Leena AI:\n- Market Positioning: Autonomous AI-first Employee Experience (EX) agent and conversational HR service delivery.\n- Target Segment: Global mid-to-large enterprises seeking to automate employee service desk requests.\n- Key Strengths: Conversational AI integrating into Slack/MS Teams to autonomously resolve 70%+ of tier-1 employee inquiries."
       },
       "error": null,
-      "latency_ms": 0.01,
+      "latency_ms": 0.0,
       "cached": false,
       "sanitized": false,
       "warning": null,
@@ -69,35 +69,53 @@
       "status_code": 200,
       "data": {
         "query": "Indian B2B SaaS startups HR tech Darwinbox Keka greytHR",
-        "mode": "fallback_index",
-        "total_retrieved": 2,
-        "relevance_filtered_count": 2,
+        "mode": "live_web",
+        "total_retrieved": 5,
+        "relevance_filtered_count": 5,
         "discarded_noise_count": 0,
         "results": [
           {
-            "title": "Top 10 Indian B2B HR Tech SaaS Startups Revolutionizing Work",
-            "url": "https://inc42.com/features/indian-hr-tech-saas-ecosystem/",
-            "snippet": "Darwinbox leads enterprise HCM market, while Keka and greytHR serve mid-market and SMB payroll compliance. ZingHR focuses on frontline mobile workforce.",
-            "relevance": 0.94
+            "title": "HRMS Software: Keka vs Darwinbox vs GreytHR (2026 Guide)",
+            "url": "https://www.hrprosolution.com/blogs/keka-vs-darwinbox-vs-greythr-hrms-comparison/",
+            "snippet": "Compare HRMS software in India:Keka,DarwinboxandGreytHRon features, payroll, pricing and fit for small, mid-size and enterprise businesses.",
+            "relevance": 0.88
           },
           {
-            "title": "Leena AI Raises Series B for Autonomous Employee Experience Agent",
-            "url": "https://techcrunch.com/leena-ai-autonomous-hr-service-delivery",
-            "snippet": "Leena AI automates HR helpdesk workflows using LLMs, answering common policy and leave inquiries instantly.",
-            "relevance": 0.91
+            "title": "Zoho People vs Keka vs greytHR vs Darwinbox (2026) | Aaxonix",
+            "url": "https://aaxonix.com/resources/zoho-people-keka-greythr-darwinbox-india-hrms/",
+            "snippet": "India HRMS comparison: Zoho People vsKekavsgreytHRvsDarwinboxon payroll compliance, attendance, and pricing per employee.",
+            "relevance": 0.88
+          },
+          {
+            "title": "Keka vs GreytHR vs Darwinbox vs Zoho People: Which HRMS? (Honest Review ...",
+            "url": "https://www.peoplevio.in/blog/keka-greythr-darwinbox-peoplevio-hrms-comparison-2026",
+            "snippet": "Unbiased HRMS comparison:Keka,GreytHR,Darwinbox, Zoho, PeopleVio. Real pricing, compliance scores, mobile app ratings. Feature matrix included. Updated Jan 2026.",
+            "relevance": 0.88
+          },
+          {
+            "title": "HRMS - The Indiapreneur Club",
+            "url": "https://theindiapreneur.com/hrms/",
+            "snippet": "The 2026 guide to HRMS platforms forIndianbusinesses —Keka, Zoho People,greytHR,Darwinbox, Pocket HRMS compared with honest opinions and clear recommendations.",
+            "relevance": 0.88
+          },
+          {
+            "title": "14 Best HR Software in India 2026 - Keka HR",
+            "url": "https://www.keka.com/best-hr-software-in-india",
+            "snippet": "The fourteen bestHRsoftware platforms forIndianemployers in 2026 areKeka,greytHR,Darwinbox, Zoho People, PeopleStrong, ZingHR, HROne, factoHR, Zimyo, Kredily, Pocket HRMS, SAP SuccessFactors, ADP India, and sumHR. ForIndianbusinesses, an HRMS helps manage employee records, attendance, leave, and payroll in one place while keeping statutory requirements such as PF, ESI, PT, and TDS in ...",
+            "relevance": 0.88
           }
         ]
       },
       "error": null,
-      "latency_ms": 248.07,
+      "latency_ms": 894.4,
       "cached": false,
       "sanitized": false,
       "warning": null,
-      "retrieved_count": 2,
+      "retrieved_count": 5,
       "filtered_count": 0,
-      "origin_type": "fallback_index",
+      "origin_type": "live_web",
       "retry_count": 0,
-      "fallback_triggered": true
+      "fallback_triggered": false
     }
   ],
   "final_response": {
@@ -123,27 +141,37 @@
       },
       {
         "id": 2,
-        "title": "Top 10 Indian B2B HR Tech SaaS Startups Revolutionizing Work",
-        "url": "https://inc42.com/features/indian-hr-tech-saas-ecosystem/",
-        "snippet": "Darwinbox leads enterprise HCM market, while Keka and greytHR serve mid-market and SMB payroll compliance. ZingHR focuses on frontline mobile workforce.",
-        "reliability_score": 0.94,
-        "domain": "inc42.com",
-        "origin_type": "fallback_index",
-        "retrieval_status": "Cached Fallback"
+        "title": "HRMS Software: Keka vs Darwinbox vs GreytHR (2026 Guide)",
+        "url": "https://www.hrprosolution.com/blogs/keka-vs-darwinbox-vs-greythr-hrms-comparison/",
+        "snippet": "Compare HRMS software in India:Keka,DarwinboxandGreytHRon features, payroll, pricing and fit for small, mid-size and enterprise businesses.",
+        "reliability_score": 0.88,
+        "domain": "www.hrprosolution.com",
+        "origin_type": "live_web",
+        "retrieval_status": "200 Live Web"
       },
       {
         "id": 3,
-        "title": "Leena AI Raises Series B for Autonomous Employee Experience Agent",
-        "url": "https://techcrunch.com/leena-ai-autonomous-hr-service-delivery",
-        "snippet": "Leena AI automates HR helpdesk workflows using LLMs, answering common policy and leave inquiries instantly.",
-        "reliability_score": 0.91,
-        "domain": "techcrunch.com",
-        "origin_type": "fallback_index",
-        "retrieval_status": "Cached Fallback"
+        "title": "Zoho People vs Keka vs greytHR vs Darwinbox (2026) | Aaxonix",
+        "url": "https://aaxonix.com/resources/zoho-people-keka-greythr-darwinbox-india-hrms/",
+        "snippet": "India HRMS comparison: Zoho People vsKekavsgreytHRvsDarwinboxon payroll compliance, attendance, and pricing per employee.",
+        "reliability_score": 0.88,
+        "domain": "aaxonix.com",
+        "origin_type": "live_web",
+        "retrieval_status": "200 Live Web"
+      },
+      {
+        "id": 4,
+        "title": "Keka vs GreytHR vs Darwinbox vs Zoho People: Which HRMS? (Honest Review ...",
+        "url": "https://www.peoplevio.in/blog/keka-greythr-darwinbox-peoplevio-hrms-comparison-2026",
+        "snippet": "Unbiased HRMS comparison:Keka,GreytHR,Darwinbox, Zoho, PeopleVio. Real pricing, compliance scores, mobile app ratings. Feature matrix included. Updated Jan 2026.",
+        "reliability_score": 0.88,
+        "domain": "www.peoplevio.in",
+        "origin_type": "live_web",
+        "retrieval_status": "200 Live Web"
       }
     ],
     "confidence_level": "High",
-    "confidence_score": 0.97,
+    "confidence_score": 0.96,
     "limitations_or_assumptions": [
       "Focuses on established growth-stage and scaled Indian B2B SaaS companies.",
       "Market positioning reflects current publicly stated go-to-market strategies."
@@ -191,13 +219,13 @@
     ],
     "confidence_breakdown": {
       "source_availability": 1.0,
-      "average_reliability": 0.93,
+      "average_reliability": 0.89,
       "tool_success_ratio": 1.0,
       "judge_grounding": 0.94
     },
     "execution_metadata": {
-      "trace_id": "6b93ce18",
-      "duration_ms": 248.39,
+      "trace_id": "61c4cd36",
+      "duration_ms": 894.73,
       "tool_calls_count": 2,
       "successful_tool_calls": 2,
       "llm_provider": "MockResearchLLM"

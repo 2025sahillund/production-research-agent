@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
 [![Pydantic](https://img.shields.io/badge/Pydantic-v2.0%2B-red.svg)](https://pydantic.dev)
-[![Tests](https://img.shields.io/badge/Tests-11%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-16%20Passed-brightgreen.svg)]()
 [![Evaluations](https://img.shields.io/badge/Eval%20Suite-100%25%20Passed-success.svg)]()
 
 ---
@@ -197,7 +197,7 @@ python -m evals.run_eval
 
 ## 📊 Evaluation & Test Results
 
-- **Unit & Integration Tests**: 12 / 12 Passed (100%) in `2.55s`
+- **Unit & Integration Tests**: 16 / 16 Passed (100%) in `2.91s`
 - **Benchmark Evaluation Suite**: 5 / 5 Passed (100%) in `0.83s`
 - **Telemetry Reports**: Sample trace files available in `samples/` (`sample_1_vectordb.json`, `sample_2_hrtech_saas.json`, `sample_3_multiagent_support.json`).
 - Detailed evaluation breakdown is documented in [EVALUATION.md](EVALUATION.md).
